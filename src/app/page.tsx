@@ -11,7 +11,7 @@ export default function Home() {
           height: "100%",
         }}
       >
-        Тестовое в GemSoft
+        Главаня страница
       </div>
     </Page>
   );
