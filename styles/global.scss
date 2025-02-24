@@ -1,0 +1,56 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "MontserratSemiBold", "helvica", "arial", sans-serif;
+}
+
+a {
+  color: var(--gs-color-primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --gs-font-montserrat-bold: "MontserratBold", sans-serif;
+  --gs-font-montserrat-semi-bold: "MontserratSemiBold", sans-serif;
+  --gs-font-montserrat-regular: "MontserratRegular", sans-serif;
+  --gs-color-primary: #71aaeb !important;
+  --gs-color-success: #46c93a;
+  --gs-color-danger: #ee1415;
+
+  --gs-main-background-color: #ffffff;
+  --gs-second-background-color: #f5f5f5;
+  --gs-hover-background-color: #e0e0e0;
+  --gs-selected-background-color: #d3d3d3;
+
+  --gs-text-color: #141414;
+  --gs-text-contrast: #ffffff;
+  --gs-text-disabled: #8c8c8c;
+
+  --gs-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 0, 0, 0.2),
+    inset 0px -1px 0px rgba(0, 0, 0, 0.2);
+  --gs-secondary-box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+  --gs-divider-color: #d3d3d3;
+}
+
+@font-face {
+  font-family: "MontserratBold";
+  src: url("./fonts/Montserrat-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "MontserratSemiBold";
+  src: url("./fonts/Montserrat-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "MontserratRegular";
+  src: url("./fonts/Montserrat-Regular.ttf") format("truetype");
+}
