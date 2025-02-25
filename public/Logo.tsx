@@ -1,8 +1,8 @@
 import { IconProps } from "@/data-types/icons";
 
 export default function Logo({
-  width = 280,
-  height = 48,
+  width = 187,
+  height = 32,
   color = "var(--gs-text-color)",
 }: IconProps) {
   return (

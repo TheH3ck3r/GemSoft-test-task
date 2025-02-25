@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styles from "./Header.module.scss";
 import { LogoIcon } from "@/public/index";
+import Avatar from "@mui/material/Avatar";
 
 export const Header = () => {
   return (
@@ -9,7 +10,7 @@ export const Header = () => {
         <Link href={"/"}>
           <LogoIcon></LogoIcon>
         </Link>
-        <div>test</div>
+        <Avatar sx={{ bgcolor: "var(--gs-color-primary)" }}></Avatar>
       </div>
     </div>
   );
