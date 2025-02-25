@@ -1,9 +1,8 @@
 "use client";
 
-import { kNasaApiKey } from "@/common/app";
 import styles from "./Data.module.scss";
 import useSWR from "swr";
-import { GETBaseFetcher } from "@/common/fetcher";
+import { BaseFetcher } from "@/common/fetcher";
 import {
   Button,
   Card,
@@ -11,6 +10,7 @@ import {
   CardContent,
   Skeleton,
 } from "@mui/material";
+import { Vacancy } from "@/data-types/props";
 
 export const Data = () => {
   const {
@@ -18,8 +18,8 @@ export const Data = () => {
     isLoading: dataLoading,
     error: dataError,
   } = useSWR(() => {
-    return `planetary/apod?api_key=${kNasaApiKey}`;
-  }, GETBaseFetcher);
+    return `vacancy`;
+  }, BaseFetcher);
 
   if (dataLoading) {
     return (
@@ -47,9 +47,9 @@ export const Data = () => {
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
-        {Array(data)?.map((data, index: number) => (
+        {data?.map((vacancy: Vacancy, index: number) => (
           <Card key={index}>
-            <CardContent>{data.date}</CardContent>
+            <CardContent>{vacancy.name}</CardContent>
             <CardActions>
               <Button size="small">Подробнее</Button>
             </CardActions>

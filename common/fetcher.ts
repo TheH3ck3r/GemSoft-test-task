@@ -1,6 +1,6 @@
 import { kBaseEndpoint } from "./app";
 
-export const GETBaseFetcher = (url: string) =>
+export const BaseFetcher = (url: string) =>
   fetch(`${kBaseEndpoint}${url}`, { method: "GET" }).then((data) =>
     data.json()
   );

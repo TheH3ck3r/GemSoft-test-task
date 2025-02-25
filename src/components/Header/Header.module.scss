@@ -1,7 +1,7 @@
 .root {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: calc(100vw - 8px);
   height: 64px;
   position: fixed;
   z-index: 50;
