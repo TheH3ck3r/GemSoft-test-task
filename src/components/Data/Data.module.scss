@@ -8,3 +8,20 @@
   flex-direction: column;
   padding-top: 128px;
 }
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  grid-template-rows: auto;
+}
+
+.error {
+  font-size: 48px;
+  color: var(--gs-color-danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
