@@ -1,9 +1,10 @@
-import { Page } from "@/components/Page/Page";
+import { Data } from "@/components/Data";
+import { Page } from "@/components/Page";
 
 export default function Home() {
   return (
     <Page>
-      <div
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "center",
@@ -12,7 +13,8 @@ export default function Home() {
         }}
       >
         Главаня страница
-      </div>
+      </div> */}
+      <Data></Data>
     </Page>
   );
 }
