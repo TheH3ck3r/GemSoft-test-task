@@ -49,7 +49,13 @@ export const Data = () => {
       <div className={styles.wrapper}>
         {data?.map((vacancy: Vacancy, index: number) => (
           <Card key={index}>
-            <CardContent>{vacancy.name}</CardContent>
+            <CardContent className={styles.content}>
+              <div className={styles.content_header}>{vacancy.name}</div>
+
+              <div className={styles.content_info}>
+                {vacancy.level} {vacancy.location} {vacancy.department}
+              </div>
+            </CardContent>
             <CardActions>
               <Button size="small">Подробнее</Button>
             </CardActions>
