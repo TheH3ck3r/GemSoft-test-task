@@ -6,6 +6,7 @@ import { BaseFetcher } from "@/common/fetcher";
 import { Skeleton, Tab, Tabs } from "@mui/material";
 import { Cards } from "../Cards";
 import { useState } from "react";
+import { DataTable } from "../DataTable";
 
 export const Data = () => {
   const [isTable, setIsTable] = useState(false);
@@ -55,7 +56,7 @@ export const Data = () => {
           onClick={() => setIsTable(true)}
         ></Tab>
       </Tabs>
-      {isTable ? <>Табличка)</> : <Cards data={data}></Cards>}
+      {isTable ? <DataTable data={data}></DataTable> : <Cards data={data}></Cards>}
     </div>
   );
 };
