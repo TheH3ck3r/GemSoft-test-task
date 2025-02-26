@@ -3,10 +3,13 @@
 import styles from "./Data.module.scss";
 import useSWR from "swr";
 import { BaseFetcher } from "@/common/fetcher";
-import { Skeleton } from "@mui/material";
+import { Skeleton, Tab, Tabs } from "@mui/material";
 import { Cards } from "../Cards";
+import { useState } from "react";
 
 export const Data = () => {
+  const [isTable, setIsTable] = useState(false);
+
   const {
     data: data,
     isLoading: dataLoading,
@@ -40,7 +43,19 @@ export const Data = () => {
 
   return (
     <div className={styles.root}>
-      <Cards data={data}></Cards>
+      <Tabs value={isTable}>
+        <Tab
+          label="Карточки"
+          value={false}
+          onClick={() => setIsTable(false)}
+        ></Tab>
+        <Tab
+          label="Таблица"
+          value={true}
+          onClick={() => setIsTable(true)}
+        ></Tab>
+      </Tabs>
+      {isTable ? <>Табличка)</> : <Cards data={data}></Cards>}
     </div>
   );
 };
