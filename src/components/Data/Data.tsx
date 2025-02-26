@@ -45,7 +45,16 @@ export const Data = () => {
   }
 
   const filteredData = data?.filter((vacancy: Vacancy) => {
-    return !search || vacancy.name.toLowerCase().includes(search.toLowerCase());
+    return (
+      !search ||
+      vacancy.name.toLowerCase().includes(search.toLowerCase()) ||
+      !search ||
+      vacancy.department.toLowerCase().includes(search.toLowerCase()) ||
+      !search ||
+      vacancy.level.toLowerCase().includes(search.toLowerCase()) ||
+      !search ||
+      vacancy.location.toLowerCase().includes(search.toLowerCase())
+    );
   });
 
   return (
