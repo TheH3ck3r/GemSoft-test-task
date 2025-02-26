@@ -15,7 +15,7 @@ export const Cards: FC<CardsProps> = ({ data }) => {
       {/* TODO: Исправить этот недочёт */}
       {/* @ts-expect-error */}
       {data?.map((vacancy: Vacancy, index: number) => (
-        <Card key={index}>
+        <Card key={index} className={styles.card}>
           <CardContent className={styles.content}>
             <div className={styles.content_header}>{vacancy.name}</div>
 
