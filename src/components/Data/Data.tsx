@@ -18,7 +18,7 @@ export const Data = () => {
     isLoading: dataLoading,
     error: dataError,
   } = useSWR(() => {
-    return `vacancy`;
+    return `vacancy/`;
   }, BaseFetcher);
 
   if (dataLoading) {
