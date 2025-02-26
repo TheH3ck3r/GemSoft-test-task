@@ -26,12 +26,12 @@ export const Data = () => {
       <div className={styles.root}>
         <div className={styles.wrapper}>
           {/* TODO: Сделать нормально скелетоны */}
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => (
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
             <Skeleton
               key={i}
               variant="rectangular"
               width={401}
-              height={160}
+              height={250}
               animation="wave"
             />
           ))}
