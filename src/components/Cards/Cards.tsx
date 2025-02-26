@@ -2,7 +2,7 @@
 
 import { Vacancy } from "@/data-types/props";
 import styles from "./Cards.module.scss";
-import { Button, Card, CardActions, CardContent } from "@mui/material";
+import { Button, Card, CardActions, CardContent, Divider } from "@mui/material";
 import { FC } from "react";
 
 type CardsProps = {
@@ -18,7 +18,7 @@ export const Cards: FC<CardsProps> = ({ data }) => {
         <Card key={index} className={styles.card}>
           <CardContent className={styles.content}>
             <div className={styles.content_header}>{vacancy.name}</div>
-
+            <Divider></Divider>
             <div className={styles.content_info}>
               <div>{vacancy.level}</div> <div>{vacancy.department}</div>
               <div>{vacancy.location}</div>
