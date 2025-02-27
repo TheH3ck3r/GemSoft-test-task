@@ -2,6 +2,7 @@
 
 import styles from "./Data.module.scss";
 import useSWR from "swr";
+import _ from "lodash";
 import { BaseFetcher } from "@/common/fetcher";
 import { Input, Skeleton, Tab, Tabs } from "@mui/material";
 import { Cards } from "../Cards";
@@ -25,8 +26,7 @@ export const Data = () => {
     return (
       <div className={styles.root}>
         <div className={styles.wrapper}>
-          {/* TODO: Сделать нормально скелетоны */}
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+          {_.range(9).map((i: number) => (
             <Skeleton
               key={i}
               variant="rectangular"
