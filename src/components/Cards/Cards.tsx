@@ -4,6 +4,7 @@ import { Button, Card, CardActions, CardContent, Divider } from "@mui/material";
 import { FC } from "react";
 import Image from "next/image";
 import { departmentsImages } from "@/common/images";
+import Link from "next/link";
 
 type CardsProps = {
   data: Array<Vacancy>;
@@ -31,7 +32,9 @@ export const Cards: FC<CardsProps> = ({ data }) => (
         </CardContent>
 
         <CardActions>
-          <Button size="small">Подробнее</Button>
+          <Link href={`${vacancy.id}`}>
+            <Button size="small">Подробнее</Button>
+          </Link>
         </CardActions>
       </Card>
     ))}
