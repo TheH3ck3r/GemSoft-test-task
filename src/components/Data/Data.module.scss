@@ -45,3 +45,10 @@
     grid-template-columns: repeat(1, 1fr);
   }
 }
+
+@media (max-width: 455px) {
+  .control {
+    flex-direction: column;
+    // height: 96px;
+  }
+}
