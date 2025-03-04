@@ -4,6 +4,7 @@ import { Button, Card, CardActions, CardContent, Divider } from "@mui/material";
 import { FC } from "react";
 import Image from "next/image";
 import { departmentsImages } from "@/common/images";
+import Link from "next/link";
 
 type CardsProps = {
   data: Array<Vacancy>;
@@ -19,11 +20,11 @@ export const Cards: FC<CardsProps> = ({ data }) => (
           className={styles.image}
           src={departmentsImages(vacancy.department).photoUrl}
           alt="image"
-        ></Image>
+        />
 
         <CardContent className={styles.content}>
           <div className={styles.content_header}>{vacancy.name}</div>
-          <Divider></Divider>
+          <Divider/>
           <div className={styles.content_info}>
             <div>{vacancy.level}</div> <div>{vacancy.department}</div>
             <div>{vacancy.location}</div>
@@ -31,7 +32,9 @@ export const Cards: FC<CardsProps> = ({ data }) => (
         </CardContent>
 
         <CardActions>
-          <Button size="small">Подробнее</Button>
+          <Link href={`${vacancy.id}`}>
+            <Button size="small">Подробнее</Button>
+          </Link>
         </CardActions>
       </Card>
     ))}

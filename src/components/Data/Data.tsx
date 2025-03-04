@@ -45,15 +45,11 @@ export const Data = () => {
   }
 
   const filteredData = data?.filter((vacancy: Vacancy) => {
-    return (
-      !search ||
-      vacancy.name.toLowerCase().includes(search.toLowerCase()) ||
-      !search ||
-      vacancy.department.toLowerCase().includes(search.toLowerCase()) ||
-      !search ||
-      vacancy.level.toLowerCase().includes(search.toLowerCase()) ||
-      !search ||
-      vacancy.location.toLowerCase().includes(search.toLowerCase())
+    if (!search) return true;
+    const searchLower = search.toLowerCase();
+    const { name, department, level, location } = vacancy;
+    return [name, department, level, location].some((field) =>
+      field.toLowerCase().includes(searchLower)
     );
   });
 
@@ -66,7 +62,7 @@ export const Data = () => {
           onChange={(event) => {
             setSearch(event.target.value);
           }}
-        ></Input>
+        />
 
         <div>
           <Tabs value={isTable}>
@@ -74,20 +70,20 @@ export const Data = () => {
               label="Карточки"
               value={false}
               onClick={() => setIsTable(false)}
-            ></Tab>
+            />
             <Tab
               label="Таблица"
               value={true}
               onClick={() => setIsTable(true)}
-            ></Tab>
+            />
           </Tabs>
         </div>
       </div>
 
       {isTable ? (
-        <DataTable data={filteredData}></DataTable>
+        <DataTable data={filteredData} />
       ) : (
-        <Cards data={filteredData}></Cards>
+        <Cards data={filteredData} />
       )}
     </div>
   );

@@ -13,7 +13,7 @@ export const Header = () => {
     <div className={styles.root}>
       <div className={styles.wrapper}>
         <Link href={"/"}>
-          <LogoIcon></LogoIcon>
+          <LogoIcon />
         </Link>
         <Button color="error" onClick={() => setIsModalOpen(true)}>
           Выйти
