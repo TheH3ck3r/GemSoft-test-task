@@ -31,13 +31,15 @@ export const Header = () => {
               </Button>
 
               {/* TODO: Сделать логику выхода из аккаунта */}
-              <Button
-                color="error"
-                variant="contained"
-                onClick={() => setIsModalOpen(false)}
-              >
-                Да
-              </Button>
+              <Link href={"/login"}>
+                <Button
+                  color="error"
+                  variant="contained"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Да
+                </Button>
+              </Link>
             </div>
           </Box>
         </Modal>
