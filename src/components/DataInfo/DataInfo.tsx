@@ -73,7 +73,7 @@ export const DataInfo = () => {
           className={styles.photo_image}
           src={departmentsImages(dataInfo?.department)?.photoUrl}
           alt="image"
-        ></Image>
+        />
 
         <div className={styles.content}>
           <div className={styles.title}>
@@ -84,7 +84,7 @@ export const DataInfo = () => {
                 src={departmentsImages(dataInfo?.department)?.logoUrl}
                 className={styles.logo_image}
                 alt="image"
-              ></Image>
+              />
             </div>
 
             <div className={styles.title_text}>{dataInfo?.name}</div>
@@ -113,7 +113,7 @@ export const DataInfo = () => {
             </div>
           </div>
 
-          <Divider></Divider>
+          <Divider/>
 
           <div style={{ marginTop: "40px" }}>
             <div className={styles.description}>Описание</div>

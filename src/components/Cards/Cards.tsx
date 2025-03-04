@@ -20,11 +20,11 @@ export const Cards: FC<CardsProps> = ({ data }) => (
           className={styles.image}
           src={departmentsImages(vacancy.department).photoUrl}
           alt="image"
-        ></Image>
+        />
 
         <CardContent className={styles.content}>
           <div className={styles.content_header}>{vacancy.name}</div>
-          <Divider></Divider>
+          <Divider/>
           <div className={styles.content_info}>
             <div>{vacancy.level}</div> <div>{vacancy.department}</div>
             <div>{vacancy.location}</div>

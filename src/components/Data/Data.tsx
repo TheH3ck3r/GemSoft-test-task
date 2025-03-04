@@ -66,7 +66,7 @@ export const Data = () => {
           onChange={(event) => {
             setSearch(event.target.value);
           }}
-        ></Input>
+        />
 
         <div>
           <Tabs value={isTable}>
@@ -74,20 +74,20 @@ export const Data = () => {
               label="Карточки"
               value={false}
               onClick={() => setIsTable(false)}
-            ></Tab>
+            />
             <Tab
               label="Таблица"
               value={true}
               onClick={() => setIsTable(true)}
-            ></Tab>
+            />
           </Tabs>
         </div>
       </div>
 
       {isTable ? (
-        <DataTable data={filteredData}></DataTable>
+        <DataTable data={filteredData} />
       ) : (
-        <Cards data={filteredData}></Cards>
+        <Cards data={filteredData} />
       )}
     </div>
   );

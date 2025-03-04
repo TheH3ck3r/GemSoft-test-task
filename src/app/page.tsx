@@ -5,8 +5,8 @@ import { Page } from "@/components/Page";
 export default function Home() {
   return (
     <Page>
-      <Header></Header>
-      <Data></Data>
+      <Header />
+      <Data />
     </Page>
   );
 }

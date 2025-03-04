@@ -5,8 +5,8 @@ import { Page } from "@/components/Page";
 export default function VacancyInfo() {
   return (
     <Page>
-      <Header></Header>
-      <DataInfo></DataInfo>
+      <Header />
+      <DataInfo />
     </Page>
   );
 }
