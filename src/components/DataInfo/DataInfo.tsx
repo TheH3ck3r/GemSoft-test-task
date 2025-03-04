@@ -26,7 +26,6 @@ export const DataInfo = () => {
     return `${uuid}`;
   }, VacancyFetcher);
 
-  // TODO: Исправить ошибку с неработающей ошибкой и скелетонами
   if (dataInfoLoading) {
     return (
       <div className={styles.root}>
@@ -113,7 +112,7 @@ export const DataInfo = () => {
             </div>
           </div>
 
-          <Divider/>
+          <Divider />
 
           <div style={{ marginTop: "40px" }}>
             <div className={styles.description}>Описание</div>
@@ -123,7 +122,7 @@ export const DataInfo = () => {
           <div style={{ marginTop: "40px" }}>
             <div className={styles.description}>Требования</div>
             <ul className={styles.description_list}>
-              {dataInfo?.requirements.map((item: string, index: number) => (
+              {dataInfo?.requirements?.map((item: string, index: number) => (
                 <li key={index}>{item}</li>
               ))}
             </ul>
@@ -132,7 +131,7 @@ export const DataInfo = () => {
           <div style={{ marginTop: "40px" }}>
             <div className={styles.description}>Задачи</div>
             <ul className={styles.description_list}>
-              {dataInfo?.tasks.map((item: string, index: number) => (
+              {dataInfo?.tasks?.map((item: string, index: number) => (
                 <li key={index}>{item}</li>
               ))}
             </ul>
