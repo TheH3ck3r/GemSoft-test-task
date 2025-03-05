@@ -1,6 +1,14 @@
 "use client";
 
-import { Button, Input, Alert } from "@mui/material";
+import {
+  Button,
+  Input,
+  Alert,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import styles from "./Login.module.scss";
 import { LogoIcon } from "@/public/index";
 import { useState } from "react";
@@ -16,6 +24,7 @@ export const Login = () => {
   const router = useRouter();
 
   const [isAlert, setIsAlert] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [loginData, setLoginData] = useState<LoginData>({
     login: "",
@@ -52,6 +61,19 @@ export const Login = () => {
         <Input
           fullWidth
           placeholder="Пароль"
+          type={showPassword ? "text" : "password"}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label={
+                  showPassword ? "hide the password" : "display the password"
+                }
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
           onChange={(event) => {
             setLoginData({
               login: loginData.login,
