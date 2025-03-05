@@ -4,7 +4,8 @@ import { Button, Input, Alert } from "@mui/material";
 import styles from "./Login.module.scss";
 import { LogoIcon } from "@/public/index";
 import { useState } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 type LoginData = {
   login: string;
@@ -12,17 +13,25 @@ type LoginData = {
 };
 
 export const Login = () => {
+  const router = useRouter();
+
+  const [isAlert, setIsAlert] = useState(false);
+
   const [loginData, setLoginData] = useState<LoginData>({
     login: "",
     password: "",
   });
 
-  // TODO: Обновить уведомление об неправильно пароле
   const checkAuth = () => {
     if (loginData.login == "admin" && loginData.password == "12345") {
-      redirect("/");
+      Cookies.set("access_token", "47dd275d-e17f-4a3e-be33-f27095558bf1", {
+        expires: new Date(Date.now() + 5 * 60 * 1000),
+        path: "/",
+      });
+
+      router.push("/");
     } else {
-      return <Alert>test</Alert>;
+      setIsAlert(true);
     }
   };
 
@@ -53,6 +62,11 @@ export const Login = () => {
         <Button fullWidth onClick={checkAuth}>
           Войти
         </Button>
+        {isAlert && (
+          <Alert variant="filled" severity="error">
+            Неверный логин или пароль
+          </Alert>
+        )}
       </div>
     </div>
   );
