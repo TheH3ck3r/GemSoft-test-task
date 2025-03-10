@@ -5,6 +5,7 @@ import styles from "./Header.module.scss";
 import { LogoIcon } from "@/public/index";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 export const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,14 +31,18 @@ export const Header = () => {
                 Нет
               </Button>
 
-              {/* TODO: Сделать логику выхода из аккаунта */}
-              <Button
-                color="error"
-                variant="contained"
-                onClick={() => setIsModalOpen(false)}
-              >
-                Да
-              </Button>
+              <Link href={"/login"}>
+                <Button
+                  color="error"
+                  variant="contained"
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    Cookies.remove("access_token");
+                  }}
+                >
+                  Да
+                </Button>
+              </Link>
             </div>
           </Box>
         </Modal>

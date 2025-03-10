@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 import "../../styles/global.scss";
+import { Page } from "@/components/Page";
 
 export const metadata: Metadata = {
   title: "GemSoft Test Task",
@@ -10,7 +11,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang={"en"}>
-      <body>{children}</body>
+      <body>
+        <Page>{children}</Page>
+      </body>
     </html>
   );
 }
