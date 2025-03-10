@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import styles from "./Page.module.scss";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { Header } from "../Header";
+import { Header } from "./Header";
 import { usePathname } from "next/navigation";
 
 export type PageProps = {
