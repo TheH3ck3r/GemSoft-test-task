@@ -5,6 +5,8 @@ import styles from "./MultipleSelect.module.scss";
 import { ChevronIcon, CrossIcon } from "@/public/index";
 import clsx from "clsx";
 
+// TODO: Перенести тип
+
 type Option = {
   value: string;
   label: string;
@@ -22,6 +24,7 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
   label,
 }) => {
   const [isOptionsActive, setIsOptionsActive] = useState(false);
+  const [selectValue, setSelectValue] = useState<Array<Option>>([]);
 
   return (
     <div className={styles.root}>
@@ -48,6 +51,18 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
 
       <div className={clsx(styles.chevron, isOptionsActive && styles.open)}>
         <ChevronIcon />
+      </div>
+
+      <div className={clsx(styles.options, isOptionsActive && styles.open)}>
+        <div className={styles.options_list}>
+          <>
+            {options.map((option: Option, index: number) => (
+              <div key={index} onClick={() => {}}>
+                {option.label}
+              </div>
+            ))}
+          </>
+        </div>
       </div>
     </div>
   );

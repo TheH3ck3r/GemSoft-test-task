@@ -11,6 +11,12 @@ import { DataTable } from "../DataTable";
 import { Vacancy } from "@/data-types/props";
 import { MultipleSelect } from "@/ui/MultipleSelect";
 
+// TODO: Перенести тип
+type Option = {
+  value: string;
+  label: string;
+};
+
 export const Data = () => {
   const [isTable, setIsTable] = useState(false);
   const [search, setSearch] = useState("");
@@ -45,6 +51,14 @@ export const Data = () => {
     return <div className={styles.error}>{"Ошибка :("}</div>;
   }
 
+  const options: Option[] = data.reduce(
+    (options: Option[], vacancy: Vacancy) => {
+      options.push({ value: vacancy.name, label: vacancy.name });
+      return options;
+    },
+    []
+  );
+
   const filteredData = data?.filter((vacancy: Vacancy) => {
     if (!search) return true;
     const searchLower = search.toLowerCase();
@@ -69,7 +83,7 @@ export const Data = () => {
           onChange={(value) => {
             setSearch(value);
           }}
-          options={[]}
+          options={options}
           label="test"
         ></MultipleSelect>
 
