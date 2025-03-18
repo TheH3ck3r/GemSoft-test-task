@@ -9,6 +9,7 @@ import { Cards } from "../Cards";
 import { useState } from "react";
 import { DataTable } from "../DataTable";
 import { Vacancy } from "@/data-types/props";
+import { MultipleSelect } from "@/ui/MultipleSelect";
 
 export const Data = () => {
   const [isTable, setIsTable] = useState(false);
@@ -56,13 +57,21 @@ export const Data = () => {
   return (
     <div className={styles.root}>
       <div className={styles.control}>
-        <Input
+        {/* <Input
           fullWidth
           placeholder="Поиск"
           onChange={(event) => {
             setSearch(event.target.value);
           }}
-        />
+        /> */}
+
+        <MultipleSelect
+          onChange={(value) => {
+            setSearch(value);
+          }}
+          options={[]}
+          label="test"
+        ></MultipleSelect>
 
         <div>
           <Tabs value={isTable}>
