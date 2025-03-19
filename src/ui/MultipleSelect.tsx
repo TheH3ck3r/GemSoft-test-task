@@ -26,6 +26,20 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
   const [isOptionsActive, setIsOptionsActive] = useState(false);
   const [selectValue, setSelectValue] = useState<Array<Option>>([]);
 
+  console.log(selectValue);
+
+  const toggleOption = (option: Option) => {
+    setSelectValue((prevSelected) => {
+      if (prevSelected.some((selected) => selected.value === option.value)) {
+        return prevSelected.filter(
+          (selected) => selected.value !== option.value
+        );
+      } else {
+        return [...prevSelected, option];
+      }
+    });
+  };
+
   return (
     <div className={styles.root}>
       <div
@@ -34,12 +48,14 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
           setIsOptionsActive(!isOptionsActive);
         }}
       >
-        <div className={styles.option_badge}>
-          {"гыгыгыгы"}
-          <div className={styles.remove_button}>
-            <CrossIcon></CrossIcon>
+        {selectValue.map((option: Option, index: number) => (
+          <div key={index} className={styles.option_badge}>
+            {option.label}
+            <div className={styles.remove_button}>
+              <CrossIcon></CrossIcon>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
 
       {/* <label
@@ -57,7 +73,14 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
         <div className={styles.options_list}>
           <>
             {options.map((option: Option, index: number) => (
-              <div key={index} onClick={() => {}}>
+              <div
+                key={index}
+                onClick={() => toggleOption(option)}
+                className={clsx(
+                  styles.options_item,
+                  selectValue.includes(option) && styles.active
+                )}
+              >
                 {option.label}
               </div>
             ))}
