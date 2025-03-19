@@ -8,9 +8,8 @@ import { Skeleton, Tab, Tabs } from "@mui/material";
 import { Cards } from "../Cards";
 import { useState } from "react";
 import { DataTable } from "../DataTable";
-import { Vacancy } from "@/data-types/props";
+import { Vacancy, Option } from "@/data-types/props";
 import { MultipleSelect } from "@/ui/MultipleSelect";
-import { Option } from "@/data-types/props";
 
 export const Data = () => {
   const [isTable, setIsTable] = useState(false);

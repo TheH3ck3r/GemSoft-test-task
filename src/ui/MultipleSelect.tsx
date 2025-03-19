@@ -66,6 +66,15 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
         {label}
       </label> */}
 
+      <div
+        className={styles.remove_all_button}
+        onClick={() => {
+          setSelectValue([]);
+        }}
+      >
+        <CrossIcon></CrossIcon>
+      </div>
+
       <div className={clsx(styles.chevron, isOptionsActive && styles.open)}>
         <ChevronIcon />
       </div>

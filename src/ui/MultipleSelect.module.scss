@@ -70,6 +70,28 @@
   color: var(--gs-text-color);
 }
 
+.remove_all_button {
+  position: absolute;
+  right: 36px;
+  top: 17px;
+  z-index: 100;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1000px;
+  max-height: 16px;
+  max-width: 16px;
+  padding: 5px;
+  background-color: var(--gs-text-disabled);
+
+  transition: opacity 0.2s ease-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
 .remove_button {
   z-index: 100;
   display: flex;
