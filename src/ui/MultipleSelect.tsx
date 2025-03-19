@@ -4,13 +4,7 @@ import { FC, useState } from "react";
 import styles from "./MultipleSelect.module.scss";
 import { ChevronIcon, CrossIcon } from "@/public/index";
 import clsx from "clsx";
-
-// TODO: Перенести тип
-
-type Option = {
-  value: string;
-  label: string;
-};
+import { Option } from "@/data-types/props";
 
 type MultipleSelectProps = {
   onChange: (value: Option[]) => void;

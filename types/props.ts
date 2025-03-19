@@ -16,3 +16,8 @@ export type VacancyInfo = {
   requirements: Array<string>;
   tasks: Array<string>;
 };
+
+export type Option = {
+  value: string;
+  label: string;
+};
