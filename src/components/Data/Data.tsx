@@ -81,11 +81,12 @@ export const Data = () => {
 
         <MultipleSelect
           onChange={(value) => {
-            setSearch(value);
+            // setSearch(value);
+            console.log(value);
           }}
           options={options}
           label="test"
-        ></MultipleSelect>
+        />
 
         <div>
           <Tabs value={isTable}>

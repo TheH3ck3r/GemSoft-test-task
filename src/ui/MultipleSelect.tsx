@@ -13,7 +13,7 @@ type Option = {
 };
 
 type MultipleSelectProps = {
-  onChange: (value: string) => void;
+  onChange: (value: Option[]) => void;
   options: Array<Option>;
   label: string;
 };
@@ -26,17 +26,18 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
   const [isOptionsActive, setIsOptionsActive] = useState(false);
   const [selectValue, setSelectValue] = useState<Array<Option>>([]);
 
-  console.log(selectValue);
-
   const toggleOption = (option: Option) => {
     setSelectValue((prevSelected) => {
+      let newSelected;
       if (prevSelected.some((selected) => selected.value === option.value)) {
-        return prevSelected.filter(
+        newSelected = prevSelected.filter(
           (selected) => selected.value !== option.value
         );
       } else {
-        return [...prevSelected, option];
+        newSelected = [...prevSelected, option];
       }
+      onChange(newSelected);
+      return newSelected;
     });
   };
 
@@ -51,7 +52,13 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
         {selectValue.map((option: Option, index: number) => (
           <div key={index} className={styles.option_badge}>
             {option.label}
-            <div className={styles.remove_button}>
+            <div
+              className={styles.remove_button}
+              onClick={(event) => {
+                event.stopPropagation();
+                toggleOption(option);
+              }}
+            >
               <CrossIcon></CrossIcon>
             </div>
           </div>
