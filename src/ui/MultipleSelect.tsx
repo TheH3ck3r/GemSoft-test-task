@@ -1,0 +1,102 @@
+"use client";
+
+import { FC, useState } from "react";
+import styles from "./MultipleSelect.module.scss";
+import { ChevronIcon, CrossIcon } from "@/public/index";
+import clsx from "clsx";
+import { Option } from "@/data-types/props";
+
+type MultipleSelectProps = {
+  onChange: (value: Option[]) => void;
+  options: Array<Option>;
+  label: string;
+};
+
+export const MultipleSelect: FC<MultipleSelectProps> = ({
+  onChange,
+  options,
+  label,
+}) => {
+  const [isOptionsActive, setIsOptionsActive] = useState(false);
+  const [selectValue, setSelectValue] = useState<Array<Option>>([]);
+
+  const toggleOption = (option: Option) => {
+    setSelectValue((prevSelected) => {
+      let newSelected;
+      if (prevSelected.some((selected) => selected.value === option.value)) {
+        newSelected = prevSelected.filter(
+          (selected) => selected.value !== option.value
+        );
+      } else {
+        newSelected = [...prevSelected, option];
+      }
+      onChange(newSelected);
+      return newSelected;
+    });
+  };
+
+  return (
+    <div className={styles.root}>
+      <div
+        className={clsx(styles.select, isOptionsActive && styles.open)}
+        onClick={() => {
+          setIsOptionsActive(!isOptionsActive);
+        }}
+      >
+        {selectValue.map((option: Option, index: number) => (
+          <div key={index} className={styles.option_badge}>
+            {option.label}
+            <div
+              className={styles.remove_button}
+              onClick={(event) => {
+                event.stopPropagation();
+                toggleOption(option);
+              }}
+            >
+              <CrossIcon></CrossIcon>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* <label
+        // htmlFor={label}
+        className={styles.label}
+      >
+        {label}
+      </label> */}
+
+      <div
+        className={styles.remove_all_button}
+        onClick={() => {
+          setSelectValue([]);
+        }}
+      >
+        <CrossIcon></CrossIcon>
+      </div>
+
+      <div className={clsx(styles.chevron, isOptionsActive && styles.open)}>
+        <ChevronIcon />
+      </div>
+
+      <div className={clsx(styles.options, isOptionsActive && styles.open)}>
+        <div className={styles.options_list}>
+          <>
+            {options.map((option: Option, index: number) => (
+              <div
+                key={index}
+                onClick={() => toggleOption(option)}
+                className={clsx(
+                  styles.options_item,
+                  selectValue.includes(option) && styles.active
+                )}
+              >
+                {option.label}
+              </div>
+            ))}
+          </>
+        </div>
+      </div>
+    </div>
+  );
+};

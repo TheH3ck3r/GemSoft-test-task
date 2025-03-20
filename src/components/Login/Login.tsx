@@ -34,7 +34,7 @@ export const Login = () => {
   const checkAuth = () => {
     if (loginData.login === "admin" && loginData.password === "12345") {
       Cookies.set("access_token", "47dd275d-e17f-4a3e-be33-f27095558bf1", {
-        expires: new Date(Date.now() + 5 * 60 * 1000),
+        expires: new Date(Date.now() + 30 * 60 * 1000),
         path: "/",
       });
 

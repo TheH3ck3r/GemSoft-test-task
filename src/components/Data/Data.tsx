@@ -4,11 +4,12 @@ import styles from "./Data.module.scss";
 import useSWR from "swr";
 import _ from "lodash";
 import { BaseFetcher } from "@/common/fetcher";
-import { Input, Skeleton, Tab, Tabs } from "@mui/material";
+import { Skeleton, Tab, Tabs } from "@mui/material";
 import { Cards } from "../Cards";
 import { useState } from "react";
 import { DataTable } from "../DataTable";
-import { Vacancy } from "@/data-types/props";
+import { Vacancy, Option } from "@/data-types/props";
+import { MultipleSelect } from "@/ui/MultipleSelect";
 
 export const Data = () => {
   const [isTable, setIsTable] = useState(false);
@@ -44,6 +45,14 @@ export const Data = () => {
     return <div className={styles.error}>{"Ошибка :("}</div>;
   }
 
+  const options: Option[] = data.reduce(
+    (options: Option[], vacancy: Vacancy) => {
+      options.push({ value: vacancy.name, label: vacancy.name });
+      return options;
+    },
+    []
+  );
+
   const filteredData = data?.filter((vacancy: Vacancy) => {
     if (!search) return true;
     const searchLower = search.toLowerCase();
@@ -53,15 +62,26 @@ export const Data = () => {
     );
   });
 
+  // console.log(search);
+
   return (
     <div className={styles.root}>
       <div className={styles.control}>
-        <Input
+        {/* <Input
           fullWidth
           placeholder="Поиск"
           onChange={(event) => {
             setSearch(event.target.value);
           }}
+        /> */}
+
+        <MultipleSelect
+          onChange={(value: Option[]) => {
+            // TODO: Fix Cannot update a component (`Data`) while rendering a different component (`MultipleSelect`). To locate the bad setState() call inside `MultipleSelect`, follow the stack trace as described in https://react.dev/link/setstate-in-render
+            setSearch(value.reduce((res, val) => res + `${val.value} `, ""));
+          }}
+          options={options}
+          label="test"
         />
 
         <div>
