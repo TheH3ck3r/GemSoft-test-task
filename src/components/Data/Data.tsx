@@ -62,8 +62,6 @@ export const Data = () => {
     );
   });
 
-  // console.log(search);
-
   return (
     <div className={styles.root}>
       <div className={styles.control}>
@@ -78,10 +76,11 @@ export const Data = () => {
         <MultipleSelect
           onChange={(value: Option[]) => {
             // TODO: Fix Cannot update a component (`Data`) while rendering a different component (`MultipleSelect`). To locate the bad setState() call inside `MultipleSelect`, follow the stack trace as described in https://react.dev/link/setstate-in-render
-            setSearch(value.reduce((res, val) => res + `${val.value} `, ""));
+            // setSearch(value.reduce((res, val) => res + `${val.value} `, ""));
+            console.log(value);
           }}
           options={options}
-          label="test"
+          label="Поиск"
         />
 
         <div>

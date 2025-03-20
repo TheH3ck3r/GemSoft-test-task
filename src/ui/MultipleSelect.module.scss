@@ -47,19 +47,20 @@
   top: 13px;
   left: 24px;
   color: var(--gs-text-color);
-  background-color: var(--gs-item-background-color);
+  background-color: var(--gs-main-background-color);
   pointer-events: none;
   transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  // &.active {
-  //   transform: translateY(-130%) translateX(-30%) scale(0.7);
-  //   color: var(--ep-color-primary);
-  //   padding-inline: 0.3em;
-  // }
+  &.active {
+    transform: translateY(-110%) translateX(-30%) scale(0.7);
+    color: var(--ep-color-primary);
+    padding-inline: 0.3em;
+  }
 }
 
 .option_badge {
   display: flex;
+  user-select: none;
   flex-direction: row;
   align-items: center;
   gap: 8px;

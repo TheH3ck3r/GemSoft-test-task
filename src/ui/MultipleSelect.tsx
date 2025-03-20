@@ -59,12 +59,11 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
         ))}
       </div>
 
-      {/* <label
-        // htmlFor={label}
-        className={styles.label}
+      <label
+        className={clsx(styles.label, selectValue.length > 0 && styles.active)}
       >
         {label}
-      </label> */}
+      </label>
 
       <div
         className={styles.remove_all_button}
