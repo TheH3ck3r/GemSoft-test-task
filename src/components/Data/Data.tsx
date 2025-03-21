@@ -6,7 +6,7 @@ import _ from "lodash";
 import { BaseFetcher } from "@/common/fetcher";
 import { Skeleton, Tab, Tabs } from "@mui/material";
 import { Cards } from "../Cards";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DataTable } from "../DataTable";
 import { Vacancy, Option } from "@/data-types/props";
 import { MultipleSelect } from "@/ui/MultipleSelect";
@@ -14,6 +14,7 @@ import { MultipleSelect } from "@/ui/MultipleSelect";
 export const Data = () => {
   const [isTable, setIsTable] = useState(false);
   const [search, setSearch] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
 
   const {
     data: data,
@@ -22,6 +23,11 @@ export const Data = () => {
   } = useSWR(() => {
     return `vacancy/`;
   }, BaseFetcher);
+
+  useEffect(() => {
+    const newSearch = selectedOptions.map((option) => option.value).join(" ");
+    setSearch(newSearch);
+  }, [selectedOptions]);
 
   if (dataLoading) {
     return (
@@ -75,9 +81,7 @@ export const Data = () => {
 
         <MultipleSelect
           onChange={(value: Option[]) => {
-            // TODO: Fix Cannot update a component (`Data`) while rendering a different component (`MultipleSelect`). To locate the bad setState() call inside `MultipleSelect`, follow the stack trace as described in https://react.dev/link/setstate-in-render
-            // setSearch(value.reduce((res, val) => res + `${val.value} `, ""));
-            console.log(value);
+            setSelectedOptions(value);
           }}
           options={options}
           label="Поиск"
