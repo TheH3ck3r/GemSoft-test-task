@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import styles from "./MultipleSelect.module.scss";
 import { ChevronIcon, CrossIcon } from "@/public/index";
 import clsx from "clsx";
@@ -19,6 +19,7 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
 }) => {
   const [isOptionsActive, setIsOptionsActive] = useState(false);
   const [selectValue, setSelectValue] = useState<Array<Option>>([]);
+  const multipleSelectRef = useRef<HTMLDivElement>(null);
 
   const toggleOption = (option: Option) => {
     setSelectValue((prevSelected) => {
@@ -35,8 +36,24 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
     });
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      multipleSelectRef.current &&
+      !multipleSelectRef.current.contains(event.target as Node)
+    ) {
+      setIsOptionsActive(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className={styles.root}>
+    <div className={styles.root} ref={multipleSelectRef}>
       <div
         className={clsx(styles.select, isOptionsActive && styles.open)}
         onClick={() => {
