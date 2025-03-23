@@ -59,13 +59,18 @@ export const Data = () => {
     []
   );
 
+  // const filteredData = data?.filter((vacancy: Vacancy) => {
+  //   if (!search) return true;
+  //   const searchLower = search.toLowerCase();
+  //   const { name, department, level, location } = vacancy;
+  //   return [name, department, level, location].some((field) =>
+  //     field.toLowerCase().includes(searchLower)
+  //   );
+  // });
+
   const filteredData = data?.filter((vacancy: Vacancy) => {
-    if (!search) return true;
-    const searchLower = search.toLowerCase();
-    const { name, department, level, location } = vacancy;
-    return [name, department, level, location].some((field) =>
-      field.toLowerCase().includes(searchLower)
-    );
+    if (selectedOptions.length === 0) return true;
+    return selectedOptions.some((option) => vacancy.name === option.value);
   });
 
   return (
