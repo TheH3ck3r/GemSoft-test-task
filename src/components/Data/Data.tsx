@@ -51,6 +51,8 @@ export const Data = () => {
     return <div className={styles.error}>{"Ошибка :("}</div>;
   }
 
+  console.log(search);
+
   const options: Option[] = data.reduce(
     (options: Option[], vacancy: Vacancy) => {
       options.push({ value: vacancy.name, label: vacancy.name });
@@ -59,6 +61,7 @@ export const Data = () => {
     []
   );
 
+  // For Input
   // const filteredData = data?.filter((vacancy: Vacancy) => {
   //   if (!search) return true;
   //   const searchLower = search.toLowerCase();

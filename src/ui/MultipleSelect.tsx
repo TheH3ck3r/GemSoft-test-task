@@ -69,6 +69,7 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
         className={styles.remove_all_button}
         onClick={() => {
           setSelectValue([]);
+          onChange([]);
         }}
       >
         <CrossIcon></CrossIcon>
