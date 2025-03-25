@@ -9,6 +9,7 @@ import { Cards } from "../Cards";
 import { DataTable } from "../DataTable";
 import vacanciesDataStore from "@/common/stores/vacanciesDataStore";
 import vacanciesPageSettingsStore from "@/common/stores/vacanciesPageSettingsStore";
+import { Navbar } from "./Navbar/Navbar";
 
 export const Data = () => {
   const {
@@ -43,8 +44,12 @@ export const Data = () => {
     return <div className={styles.error}>{"Ошибка :("}</div>;
   }
 
+  console.log(vacanciesDataStore.vacancies);
+
   return (
     <div className={styles.root}>
+      <Navbar></Navbar>
+
       {vacanciesPageSettingsStore.isCards ? (
         <Cards vacancies={vacanciesDataStore.vacancies} />
       ) : (

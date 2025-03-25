@@ -1,3 +1,4 @@
+import { DataDisplay } from "./DataDisplay";
 import styles from "./Navbar.module.scss";
 
 export const Navbar = () => {
@@ -34,24 +35,15 @@ export const Navbar = () => {
     }}
   /> */}
 
-      <MultipleSelect
+      {/* <MultipleSelect
         onChange={(value: Option[]) => {
           setSelectedOptions(value);
         }}
         options={options}
         label="Поиск"
-      />
+      /> */}
 
-      <div>
-        <Tabs value={isTable}>
-          <Tab
-            label="Карточки"
-            value={false}
-            onClick={() => setIsTable(false)}
-          />
-          <Tab label="Таблица" value={true} onClick={() => setIsTable(true)} />
-        </Tabs>
-      </div>
+      <DataDisplay />
     </div>
   );
 };

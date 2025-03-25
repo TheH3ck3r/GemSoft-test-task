@@ -1,20 +1,18 @@
-import { VacanciesData } from "@/data-types/props";
+import { Vacancy } from "@/data-types/props";
 import { makeAutoObservable } from "mobx";
 
 export class VacanciesDataStore {
-  vacanciesData: VacanciesData = {
-    data: [],
-  };
+  vacanciesData: Vacancy[] = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setVacanciesData(data: VacanciesData) {
+  setVacanciesData(data: Vacancy[]) {
     this.vacanciesData = data;
   }
 
-  get vacancies(): VacanciesData {
+  get vacancies(): Vacancy[] {
     return this.vacanciesData;
   }
 }

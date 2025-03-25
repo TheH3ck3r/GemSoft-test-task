@@ -1,4 +1,4 @@
-import { VacanciesData, Vacancy } from "@/data-types/props";
+import { Vacancy } from "@/data-types/props";
 import {
   Paper,
   Table,
@@ -11,7 +11,7 @@ import {
 import { FC } from "react";
 
 type TableProps = {
-  vacancies: VacanciesData;
+  vacancies: Vacancy[];
 };
 
 export const DataTable: FC<TableProps> = ({ vacancies }) => (
@@ -28,7 +28,7 @@ export const DataTable: FC<TableProps> = ({ vacancies }) => (
       </TableHead>
 
       <TableBody>
-        {vacancies.data?.map((vacancy: Vacancy) => (
+        {vacancies?.map((vacancy: Vacancy) => (
           <TableRow key={vacancy.id}>
             <TableCell>{vacancy.name}</TableCell>
             <TableCell>{vacancy.department}</TableCell>
