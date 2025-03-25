@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-
 import { VacanciesData, Vacancy } from "@/data-types/props";
 import styles from "./Cards.module.scss";
 import { Button, Card, CardActions, CardContent, Divider } from "@mui/material";
