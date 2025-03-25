@@ -1,7 +1,7 @@
 import { VacanciesPageSettings } from "@/data-types/props";
 import { makeAutoObservable } from "mobx";
 
-export class vacanciesPageSettingsStore {
+export class VacanciesPageSettingsStore {
   vacanciesPageSettings: VacanciesPageSettings = {
     isSearch: true,
     isCards: true,
@@ -30,3 +30,7 @@ export class vacanciesPageSettingsStore {
     return this.vacanciesPageSettings.isCards;
   }
 }
+
+const vacanciesPageSettingsStore = new VacanciesPageSettingsStore();
+
+export default vacanciesPageSettingsStore;

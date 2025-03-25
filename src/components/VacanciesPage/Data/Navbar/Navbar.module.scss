@@ -1,0 +1,12 @@
+.control {
+  display: flex;
+  width: 100%;
+  gap: 24px;
+  justify-content: space-between;
+}
+
+@media (max-width: 455px) {
+  .control {
+    flex-direction: column;
+  }
+}

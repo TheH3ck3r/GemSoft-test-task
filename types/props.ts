@@ -6,6 +6,10 @@ export type Vacancy = {
   location: string;
 };
 
+export type VacanciesData = {
+  data: Vacancy[];
+};
+
 export type VacancyInfo = {
   id: string;
   name: string;
