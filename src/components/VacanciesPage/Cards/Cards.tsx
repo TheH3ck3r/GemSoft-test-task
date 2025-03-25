@@ -1,4 +1,6 @@
-import { Vacancy } from "@/data-types/props";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
+import { VacanciesData, Vacancy } from "@/data-types/props";
 import styles from "./Cards.module.scss";
 import { Button, Card, CardActions, CardContent, Divider } from "@mui/material";
 import { FC } from "react";
@@ -7,36 +9,38 @@ import { departmentsImages } from "@/common/images";
 import Link from "next/link";
 
 type CardsProps = {
-  data: Array<Vacancy>;
+  vacancies: VacanciesData;
 };
 
-export const Cards: FC<CardsProps> = ({ data }) => (
-  <div className={styles.wrapper}>
-    {data?.map((vacancy: Vacancy, index: number) => (
-      <Card key={index} className={styles.card}>
-        <Image
-          width={500}
-          height={100}
-          className={styles.image}
-          src={departmentsImages(vacancy.department).photoUrl}
-          alt="image"
-        />
+export const Cards: FC<CardsProps> = ({ vacancies }) => {
+  return (
+    <div className={styles.wrapper}>
+      {vacancies.data?.map((vacancy: Vacancy, index: number) => (
+        <Card key={index} className={styles.card}>
+          <Image
+            width={500}
+            height={100}
+            className={styles.image}
+            src={departmentsImages(vacancy.department).photoUrl}
+            alt="image"
+          />
 
-        <CardContent className={styles.content}>
-          <div className={styles.content_header}>{vacancy.name}</div>
-          <Divider/>
-          <div className={styles.content_info}>
-            <div>{vacancy.level}</div> <div>{vacancy.department}</div>
-            <div>{vacancy.location}</div>
-          </div>
-        </CardContent>
+          <CardContent className={styles.content}>
+            <div className={styles.content_header}>{vacancy.name}</div>
+            <Divider />
+            <div className={styles.content_info}>
+              <div>{vacancy.level}</div> <div>{vacancy.department}</div>
+              <div>{vacancy.location}</div>
+            </div>
+          </CardContent>
 
-        <CardActions>
-          <Link href={`${vacancy.id}`}>
-            <Button size="small">Подробнее</Button>
-          </Link>
-        </CardActions>
-      </Card>
-    ))}
-  </div>
-);
+          <CardActions>
+            <Link href={`${vacancy.id}`}>
+              <Button size="small">Подробнее</Button>
+            </Link>
+          </CardActions>
+        </Card>
+      ))}
+    </div>
+  );
+};

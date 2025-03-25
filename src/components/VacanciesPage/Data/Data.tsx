@@ -46,9 +46,9 @@ export const Data = () => {
   return (
     <div className={styles.root}>
       {vacanciesPageSettingsStore.isCards ? (
-        <Cards data={data} />
+        <Cards vacancies={vacanciesDataStore.vacancies} />
       ) : (
-        <DataTable data={data} />
+        <DataTable vacancies={vacanciesDataStore.vacancies} />
       )}
     </div>
   );
