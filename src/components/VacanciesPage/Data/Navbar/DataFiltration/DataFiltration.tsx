@@ -1,6 +1,7 @@
 import vacanciesPageSettingsStore from "@/common/stores/vacanciesPageSettingsStore";
 import { MultipleSelect } from "@/ui/MultipleSelect";
-import { Divider, Input, Tab, Tabs } from "@mui/material";
+import { Input } from "@mui/material";
+import styles from "./DataFiltration.module.scss";
 
 export const DataFiltration = () => {
   // const options: Option[] = data.reduce(
@@ -10,6 +11,13 @@ export const DataFiltration = () => {
   //   },
   //   []
   // );
+
+  const options = [
+    {
+      value: "test",
+      label: "test",
+    },
+  ];
 
   // For Input
   // const filteredData = data?.filter((vacancy: Vacancy) => {
@@ -27,8 +35,8 @@ export const DataFiltration = () => {
   // });
 
   return (
-    <div>
-      {vacanciesPageSettingsStore.isSearch ? (
+    <div className={styles.root}>
+      {vacanciesPageSettingsStore.isCards ? (
         <Input
           fullWidth
           placeholder="Поиск"
@@ -38,28 +46,16 @@ export const DataFiltration = () => {
         />
       ) : (
         <MultipleSelect
-          onChange={(value: Option[]) => {
-            setSelectedOptions(value);
+          // onChange={(value: Option[]) => {
+          //   setSelectedOptions(value);
+          // }}
+          onChange={() => {
+            console.log("test");
           }}
           options={options}
           label="Поиск"
         />
       )}
-
-      <Divider orientation="vertical" flexItem />
-
-      <Tabs value={vacanciesPageSettingsStore.isSearch}>
-        <Tab
-          label="Поиск"
-          value={true}
-          onClick={() => vacanciesPageSettingsStore.setIsSearch(true)}
-        />
-        <Tab
-          label="Селект"
-          value={false}
-          onClick={() => vacanciesPageSettingsStore.setIsSearch(false)}
-        />
-      </Tabs>
     </div>
   );
 };

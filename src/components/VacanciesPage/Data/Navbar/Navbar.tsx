@@ -1,4 +1,4 @@
-import { DataDisplay } from "./DataDisplay";
+import { SettingsTabs } from "./SettingsTabs";
 import { DataFiltration } from "./DataFiltration/DataFiltration";
 import styles from "./Navbar.module.scss";
 
@@ -6,7 +6,7 @@ export const Navbar = () => {
   return (
     <div className={styles.control}>
       <DataFiltration />
-      <DataDisplay />
+      <SettingsTabs />
     </div>
   );
 };
