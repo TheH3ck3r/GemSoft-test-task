@@ -10,6 +10,7 @@ import { DataTable } from "../DataTable";
 import vacanciesDataStore from "@/common/stores/vacanciesDataStore";
 import vacanciesPageSettingsStore from "@/common/stores/vacanciesPageSettingsStore";
 import { Navbar } from "./Navbar/Navbar";
+// import { observer } from "mobx-react-lite";
 
 export const Data = () => {
   const {

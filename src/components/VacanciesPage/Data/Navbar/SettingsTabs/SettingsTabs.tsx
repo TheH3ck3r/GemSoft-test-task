@@ -1,8 +1,9 @@
 import vacanciesPageSettingsStore from "@/common/stores/vacanciesPageSettingsStore";
 import { Divider, Tab, Tabs } from "@mui/material";
 import styles from "./SettingsTabs.module.scss";
+import { observer } from "mobx-react-lite";
 
-export const SettingsTabs = () => {
+export const SettingsTabs = observer(() => {
   return (
     <div className={styles.root}>
       <Tabs value={vacanciesPageSettingsStore.isSearch}>
@@ -24,14 +25,20 @@ export const SettingsTabs = () => {
         <Tab
           label="Карточки"
           value={true}
-          onClick={() => vacanciesPageSettingsStore.setIsCards(true)}
+          onClick={() => {
+            vacanciesPageSettingsStore.setIsCards(true);
+            console.log(vacanciesPageSettingsStore.isCards);
+          }}
         />
         <Tab
           label="Таблица"
           value={false}
-          onClick={() => vacanciesPageSettingsStore.setIsCards(false)}
+          onClick={() => {
+            vacanciesPageSettingsStore.setIsCards(false);
+            console.log(vacanciesPageSettingsStore.isCards);
+          }}
         />
       </Tabs>
     </div>
   );
-};
+});
