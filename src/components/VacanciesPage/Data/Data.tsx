@@ -44,8 +44,6 @@ export const Data = () => {
     return <div className={styles.error}>{"Ошибка :("}</div>;
   }
 
-  console.log(vacanciesDataStore.vacancies);
-
   return (
     <div className={styles.root}>
       <Navbar></Navbar>
