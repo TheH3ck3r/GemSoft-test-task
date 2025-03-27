@@ -55,7 +55,7 @@ export const Data = observer(() => {
 
   return (
     <div className={styles.root}>
-      <Navbar></Navbar>
+      <Navbar />
 
       {vacanciesPageSettingsStore.isCards ? (
         <Cards vacancies={vacanciesDataStore.vacancies} />

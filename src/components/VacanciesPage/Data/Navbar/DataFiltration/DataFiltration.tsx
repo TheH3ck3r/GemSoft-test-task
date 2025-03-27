@@ -3,23 +3,9 @@ import { MultipleSelect } from "@/ui/MultipleSelect";
 import { Input } from "@mui/material";
 import styles from "./DataFiltration.module.scss";
 import { observer } from "mobx-react-lite";
+import vacanciesDataStore from "@/common/stores/vacanciesDataStore";
 
 export const DataFiltration = observer(() => {
-  // const options: Option[] = data.reduce(
-  //   (options: Option[], vacancy: Vacancy) => {
-  //     options.push({ value: vacancy.name, label: vacancy.name });
-  //     return options;
-  //   },
-  //   []
-  // );
-
-  const options = [
-    {
-      value: "test",
-      label: "test",
-    },
-  ];
-
   // For Input
   // const filteredData = data?.filter((vacancy: Vacancy) => {
   //   if (!search) return true;
@@ -53,7 +39,7 @@ export const DataFiltration = observer(() => {
           onChange={() => {
             console.log("test");
           }}
-          options={options}
+          options={vacanciesDataStore.selectOptions}
           label="Поиск"
         />
       )}

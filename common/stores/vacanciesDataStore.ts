@@ -1,4 +1,4 @@
-import { Vacancy } from "@/data-types/props";
+import { Vacancy, Option } from "@/data-types/props";
 import { makeAutoObservable } from "mobx";
 
 export class VacanciesDataStore {
@@ -14,6 +14,13 @@ export class VacanciesDataStore {
 
   get vacancies(): Vacancy[] {
     return this.vacanciesData;
+  }
+
+  get selectOptions(): Option[] {
+    return this.vacanciesData.reduce((options: Option[], vacancy: Vacancy) => {
+      options.push({ value: vacancy.name, label: vacancy.name });
+      return options;
+    }, []);
   }
 }
 
