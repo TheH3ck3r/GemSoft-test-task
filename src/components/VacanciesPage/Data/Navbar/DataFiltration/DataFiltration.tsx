@@ -2,8 +2,9 @@ import vacanciesPageSettingsStore from "@/common/stores/vacanciesPageSettingsSto
 import { MultipleSelect } from "@/ui/MultipleSelect";
 import { Input } from "@mui/material";
 import styles from "./DataFiltration.module.scss";
+import { observer } from "mobx-react-lite";
 
-export const DataFiltration = () => {
+export const DataFiltration = observer(() => {
   // const options: Option[] = data.reduce(
   //   (options: Option[], vacancy: Vacancy) => {
   //     options.push({ value: vacancy.name, label: vacancy.name });
@@ -36,7 +37,7 @@ export const DataFiltration = () => {
 
   return (
     <div className={styles.root}>
-      {vacanciesPageSettingsStore.isCards ? (
+      {vacanciesPageSettingsStore.isSearch ? (
         <Input
           fullWidth
           placeholder="Поиск"
@@ -58,4 +59,4 @@ export const DataFiltration = () => {
       )}
     </div>
   );
-};
+});

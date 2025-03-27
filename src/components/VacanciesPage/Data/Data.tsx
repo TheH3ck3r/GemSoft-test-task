@@ -10,9 +10,11 @@ import { DataTable } from "../DataTable";
 import vacanciesDataStore from "@/common/stores/vacanciesDataStore";
 import vacanciesPageSettingsStore from "@/common/stores/vacanciesPageSettingsStore";
 import { Navbar } from "./Navbar/Navbar";
-// import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react-lite";
+import { runInAction } from "mobx";
+import { useEffect } from "react";
 
-export const Data = () => {
+export const Data = observer(() => {
   const {
     data: data,
     isLoading: dataLoading,
@@ -21,7 +23,13 @@ export const Data = () => {
     return `vacancy/`;
   }, BaseFetcher);
 
-  vacanciesDataStore.setVacanciesData(data);
+  useEffect(() => {
+    if (data) {
+      runInAction(() => {
+        vacanciesDataStore.setVacanciesData(data);
+      });
+    }
+  }, [data]);
 
   if (dataLoading) {
     return (
@@ -56,4 +64,4 @@ export const Data = () => {
       )}
     </div>
   );
-};
+});

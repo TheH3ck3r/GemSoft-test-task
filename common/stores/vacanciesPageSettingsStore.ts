@@ -22,7 +22,6 @@ export class VacanciesPageSettingsStore {
     };
   }
 
-  // TODO: Нужно проверить как работает
   setIsSearch(state: boolean) {
     this.vacanciesPageSettings = {
       isCards: this.vacanciesPageSettings.isCards,
@@ -30,12 +29,15 @@ export class VacanciesPageSettingsStore {
     };
   }
 
-  // TODO: Нужно проверить как работает
   setIsCards(state: boolean) {
     this.vacanciesPageSettings = {
       isCards: state,
       isSearch: this.vacanciesPageSettings.isSearch,
     };
+  }
+
+  get settings(): VacanciesPageSettings {
+    return this.vacanciesPageSettings;
   }
 
   get isSearch(): boolean {

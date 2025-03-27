@@ -27,7 +27,6 @@ export const SettingsTabs = observer(() => {
           value={true}
           onClick={() => {
             vacanciesPageSettingsStore.setIsCards(true);
-            console.log(vacanciesPageSettingsStore.isCards);
           }}
         />
         <Tab
@@ -35,7 +34,6 @@ export const SettingsTabs = observer(() => {
           value={false}
           onClick={() => {
             vacanciesPageSettingsStore.setIsCards(false);
-            console.log(vacanciesPageSettingsStore.isCards);
           }}
         />
       </Tabs>
