@@ -22,7 +22,6 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
   const [isOptionsActive, setIsOptionsActive] = useState(false);
   const [selectValue, setSelectValue] = useState<Array<Option>>(defaultValue);
   const multipleSelectRef = useRef<HTMLDivElement>(null);
-  const current = multipleSelectRef.current;
 
   const toggleOption = (option: Option) => {
     setSelectValue((prevSelected) => {
@@ -40,6 +39,7 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
   };
 
   const handleClickOutside = (event: MouseEvent) => {
+    const current = multipleSelectRef.current;
     if (current && !current.contains(event.target as Node)) {
       setIsOptionsActive(false);
     }
