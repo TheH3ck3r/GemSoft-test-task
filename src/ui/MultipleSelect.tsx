@@ -8,18 +8,21 @@ import { Option } from "@/data-types/props";
 
 type MultipleSelectProps = {
   onChange: (value: Option[]) => void;
-  options: Array<Option>;
+  defaultValue: Option[];
+  options: Option[];
   label: string;
 };
 
 export const MultipleSelect: FC<MultipleSelectProps> = ({
   onChange,
+  defaultValue,
   options,
   label,
 }) => {
   const [isOptionsActive, setIsOptionsActive] = useState(false);
-  const [selectValue, setSelectValue] = useState<Array<Option>>([]);
+  const [selectValue, setSelectValue] = useState<Array<Option>>(defaultValue);
   const multipleSelectRef = useRef<HTMLDivElement>(null);
+  const current = multipleSelectRef.current;
 
   const toggleOption = (option: Option) => {
     setSelectValue((prevSelected) => {
@@ -37,10 +40,7 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (
-      multipleSelectRef.current &&
-      !multipleSelectRef.current.contains(event.target as Node)
-    ) {
+    if (current && !current.contains(event.target as Node)) {
       setIsOptionsActive(false);
     }
   };

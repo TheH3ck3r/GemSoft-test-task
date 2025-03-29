@@ -37,7 +37,7 @@ export class VacanciesDataFiltrationStore {
     };
   }
 
-  get test(): VacanciesDataFiltration {
+  get filtrationValue(): VacanciesDataFiltration {
     return this.vacanciesDataFiltration;
   }
 }

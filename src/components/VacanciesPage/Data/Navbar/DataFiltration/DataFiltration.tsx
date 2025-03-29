@@ -13,6 +13,7 @@ export const DataFiltration = observer(() => {
       {vacanciesPageSettingsStore.isSearch ? (
         <Input
           fullWidth
+          defaultValue={vacanciesDataFiltrationStore.filtrationValue.search}
           placeholder="Поиск"
           onChange={(event) => {
             vacanciesDataFiltrationStore.setSearch(event.target.value);
@@ -23,6 +24,7 @@ export const DataFiltration = observer(() => {
           onChange={(value: Option[]) => {
             vacanciesDataFiltrationStore.setIsFiltration(value);
           }}
+          defaultValue={vacanciesDataFiltrationStore.filtrationValue.filtration}
           options={vacanciesDataStore.selectOptions}
           label="Поиск"
         />
