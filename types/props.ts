@@ -26,3 +26,8 @@ export type VacanciesPageSettings = {
   isSearch: boolean;
   isCards: boolean;
 };
+
+export type VacanciesDataFiltration = {
+  search: string;
+  filtration: Option[];
+};

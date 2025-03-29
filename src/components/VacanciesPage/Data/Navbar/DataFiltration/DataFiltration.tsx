@@ -4,6 +4,8 @@ import { Input } from "@mui/material";
 import styles from "./DataFiltration.module.scss";
 import { observer } from "mobx-react-lite";
 import vacanciesDataStore from "@/common/stores/vacanciesDataStore";
+import { Option } from "@/data-types/props";
+import vacanciesDataFiltrationStore from "@/common/stores/vacanciesDataFiltrationStore";
 
 export const DataFiltration = observer(() => {
   // For Input
@@ -27,17 +29,14 @@ export const DataFiltration = observer(() => {
         <Input
           fullWidth
           placeholder="Поиск"
-          // onChange={(event) => {
-          //   setSearch(event.target.value);
-          // }}
+          onChange={(event) => {
+            vacanciesDataFiltrationStore.setSearch(event.target.value);
+          }}
         />
       ) : (
         <MultipleSelect
-          // onChange={(value: Option[]) => {
-          //   setSelectedOptions(value);
-          // }}
-          onChange={() => {
-            console.log("test");
+          onChange={(value: Option[]) => {
+            vacanciesDataFiltrationStore.setIsFiltration(value);
           }}
           options={vacanciesDataStore.selectOptions}
           label="Поиск"

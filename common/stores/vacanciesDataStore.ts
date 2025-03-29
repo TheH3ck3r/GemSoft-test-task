@@ -1,5 +1,6 @@
 import { Vacancy, Option } from "@/data-types/props";
 import { makeAutoObservable } from "mobx";
+import vacanciesDataFiltrationStore from "./vacanciesDataFiltrationStore";
 
 export class VacanciesDataStore {
   vacanciesData: Vacancy[] = [];
@@ -17,10 +18,30 @@ export class VacanciesDataStore {
   }
 
   get selectOptions(): Option[] {
-    return this.vacanciesData.reduce((options: Option[], vacancy: Vacancy) => {
-      options.push({ value: vacancy.name, label: vacancy.name });
-      return options;
-    }, []);
+    return this.vacanciesData.map((vacancy) => ({
+      value: vacancy.name,
+      label: vacancy.name,
+    }));
+  }
+
+  get filteredVacanciesBySearch(): Vacancy[] {
+    const searchQuery =
+      vacanciesDataFiltrationStore.vacanciesDataFiltration.search.toLowerCase();
+    if (!searchQuery) return this.vacanciesData;
+    return this.vacanciesData.filter((vacancy) =>
+      vacancy.name.toLowerCase().includes(searchQuery)
+    );
+  }
+
+  get filteredVacanciesByOptions(): Vacancy[] {
+    const selectedOptions =
+      vacanciesDataFiltrationStore.vacanciesDataFiltration.filtration.map(
+        (option) => option.value
+      );
+    if (selectedOptions.length === 0) return this.vacanciesData;
+    return this.vacanciesData.filter((vacancy) =>
+      selectedOptions.includes(vacancy.name)
+    );
   }
 }
 

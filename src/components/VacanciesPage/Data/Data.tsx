@@ -58,9 +58,21 @@ export const Data = observer(() => {
       <Navbar />
 
       {vacanciesPageSettingsStore.isCards ? (
-        <Cards vacancies={vacanciesDataStore.vacancies} />
+        <Cards
+          vacancies={
+            vacanciesPageSettingsStore.isSearch
+              ? vacanciesDataStore.filteredVacanciesBySearch
+              : vacanciesDataStore.filteredVacanciesByOptions
+          }
+        />
       ) : (
-        <DataTable vacancies={vacanciesDataStore.vacancies} />
+        <DataTable
+          vacancies={
+            vacanciesPageSettingsStore.isSearch
+              ? vacanciesDataStore.filteredVacanciesBySearch
+              : vacanciesDataStore.filteredVacanciesByOptions
+          }
+        />
       )}
     </div>
   );
