@@ -53,26 +53,18 @@ export const Data = observer(() => {
     return <div className={styles.error}>{"Ошибка :("}</div>;
   }
 
+  const vacancies = vacanciesPageSettingsStore.isSearch
+    ? vacanciesDataStore.filteredVacanciesBySearch
+    : vacanciesDataStore.filteredVacanciesByOptions;
+
   return (
     <div className={styles.root}>
       <Navbar />
 
       {vacanciesPageSettingsStore.isCards ? (
-        <Cards
-          vacancies={
-            vacanciesPageSettingsStore.isSearch
-              ? vacanciesDataStore.filteredVacanciesBySearch
-              : vacanciesDataStore.filteredVacanciesByOptions
-          }
-        />
+        <Cards vacancies={vacancies} />
       ) : (
-        <DataTable
-          vacancies={
-            vacanciesPageSettingsStore.isSearch
-              ? vacanciesDataStore.filteredVacanciesBySearch
-              : vacanciesDataStore.filteredVacanciesByOptions
-          }
-        />
+        <DataTable vacancies={vacancies} />
       )}
     </div>
   );
