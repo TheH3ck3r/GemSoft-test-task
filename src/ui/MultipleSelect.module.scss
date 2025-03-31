@@ -71,6 +71,15 @@
   color: var(--gs-text-color);
 }
 
+.many_options {
+  position: absolute;
+  top: 15px;
+  right: 64px;
+  z-index: 100;
+  display: flex;
+  user-select: none;
+}
+
 .remove_all_button {
   position: absolute;
   right: 36px;

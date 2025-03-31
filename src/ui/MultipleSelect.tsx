@@ -60,20 +60,24 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
           setIsOptionsActive(!isOptionsActive);
         }}
       >
-        {selectValue.map((option: Option, index: number) => (
-          <div key={index} className={styles.option_badge}>
-            {option.label}
-            <div
-              className={styles.remove_button}
-              onClick={(event) => {
-                event.stopPropagation();
-                toggleOption(option);
-              }}
-            >
-              <CrossIcon></CrossIcon>
-            </div>
-          </div>
-        ))}
+        {selectValue.map((option: Option, index: number) => {
+          if (index <= 2) {
+            return (
+              <div key={index} className={styles.option_badge}>
+                {option.label}
+                <div
+                  className={styles.remove_button}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    toggleOption(option);
+                  }}
+                >
+                  <CrossIcon></CrossIcon>
+                </div>
+              </div>
+            );
+          }
+        })}
       </div>
 
       <label
@@ -81,6 +85,10 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
       >
         {label}
       </label>
+
+      <div className={styles.many_options}>
+        {selectValue.length > 3 && <>+{selectValue.length - 3}</>}
+      </div>
 
       <div
         className={styles.remove_all_button}
