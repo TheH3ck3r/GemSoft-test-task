@@ -8,17 +8,19 @@ import { Option } from "@/data-types/props";
 
 type MultipleSelectProps = {
   onChange: (value: Option[]) => void;
-  options: Array<Option>;
+  defaultValue: Option[];
+  options: Option[];
   label: string;
 };
 
 export const MultipleSelect: FC<MultipleSelectProps> = ({
   onChange,
+  defaultValue,
   options,
   label,
 }) => {
   const [isOptionsActive, setIsOptionsActive] = useState(false);
-  const [selectValue, setSelectValue] = useState<Array<Option>>([]);
+  const [selectValue, setSelectValue] = useState<Array<Option>>(defaultValue);
   const multipleSelectRef = useRef<HTMLDivElement>(null);
 
   const toggleOption = (option: Option) => {
@@ -37,10 +39,8 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (
-      multipleSelectRef.current &&
-      !multipleSelectRef.current.contains(event.target as Node)
-    ) {
+    const current = multipleSelectRef.current;
+    if (current && !current.contains(event.target as Node)) {
       setIsOptionsActive(false);
     }
   };
@@ -60,20 +60,24 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
           setIsOptionsActive(!isOptionsActive);
         }}
       >
-        {selectValue.map((option: Option, index: number) => (
-          <div key={index} className={styles.option_badge}>
-            {option.label}
-            <div
-              className={styles.remove_button}
-              onClick={(event) => {
-                event.stopPropagation();
-                toggleOption(option);
-              }}
-            >
-              <CrossIcon></CrossIcon>
-            </div>
-          </div>
-        ))}
+        {selectValue.map((option: Option, index: number) => {
+          if (index <= 2) {
+            return (
+              <div key={index} className={styles.option_badge}>
+                {option.label}
+                <div
+                  className={styles.remove_button}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    toggleOption(option);
+                  }}
+                >
+                  <CrossIcon></CrossIcon>
+                </div>
+              </div>
+            );
+          }
+        })}
       </div>
 
       <label
@@ -81,6 +85,10 @@ export const MultipleSelect: FC<MultipleSelectProps> = ({
       >
         {label}
       </label>
+
+      <div className={styles.many_options}>
+        {selectValue.length > 3 && <>+{selectValue.length - 3}</>}
+      </div>
 
       <div
         className={styles.remove_all_button}

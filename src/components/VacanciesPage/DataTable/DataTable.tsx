@@ -1,4 +1,3 @@
-
 import { Vacancy } from "@/data-types/props";
 import {
   Paper,
@@ -12,10 +11,10 @@ import {
 import { FC } from "react";
 
 type TableProps = {
-  data: Array<Vacancy>;
+  vacancies: Vacancy[];
 };
 
-export const DataTable: FC<TableProps> = ({ data }) => (
+export const DataTable: FC<TableProps> = ({ vacancies }) => (
   <TableContainer component={Paper}>
     <Table stickyHeader sx={{ height: "400px" }}>
       <TableHead>
@@ -29,7 +28,7 @@ export const DataTable: FC<TableProps> = ({ data }) => (
       </TableHead>
 
       <TableBody>
-        {data?.map((vacancy: Vacancy) => (
+        {vacancies?.map((vacancy: Vacancy) => (
           <TableRow key={vacancy.id}>
             <TableCell>{vacancy.name}</TableCell>
             <TableCell>{vacancy.department}</TableCell>

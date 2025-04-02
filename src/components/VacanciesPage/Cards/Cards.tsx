@@ -7,12 +7,12 @@ import { departmentsImages } from "@/common/images";
 import Link from "next/link";
 
 type CardsProps = {
-  data: Array<Vacancy>;
+  vacancies: Vacancy[];
 };
 
-export const Cards: FC<CardsProps> = ({ data }) => (
+export const Cards: FC<CardsProps> = ({ vacancies }) => (
   <div className={styles.wrapper}>
-    {data?.map((vacancy: Vacancy, index: number) => (
+    {vacancies?.map((vacancy: Vacancy, index: number) => (
       <Card key={index} className={styles.card}>
         <Image
           width={500}
@@ -24,7 +24,7 @@ export const Cards: FC<CardsProps> = ({ data }) => (
 
         <CardContent className={styles.content}>
           <div className={styles.content_header}>{vacancy.name}</div>
-          <Divider/>
+          <Divider />
           <div className={styles.content_info}>
             <div>{vacancy.level}</div> <div>{vacancy.department}</div>
             <div>{vacancy.location}</div>
