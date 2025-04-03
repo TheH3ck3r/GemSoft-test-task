@@ -110,3 +110,5 @@ export const vacanciesInfoData: VacancyInfo[] = [
     tasks: ["Обсервить трансляции матчей и не только"],
   },
 ];
+
+export const getVacancyInfoData = (id: string) => vacanciesInfoData[+id - 1];
