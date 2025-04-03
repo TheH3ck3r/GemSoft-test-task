@@ -1,10 +1,10 @@
 "use client";
 
 import styles from "./Data.module.scss";
-import useSWR from "swr";
-import _ from "lodash";
-import { BaseFetcher } from "@/common/fetcher";
-import { Skeleton } from "@mui/material";
+// import useSWR from "swr";
+// import _ from "lodash";
+// import { BaseFetcher } from "@/common/fetcher";
+// import { Skeleton } from "@mui/material";
 import { Cards } from "../Cards";
 import { DataTable } from "../DataTable";
 import vacanciesDataStore from "@/common/stores/vacanciesDataStore";
@@ -13,15 +13,18 @@ import { Navbar } from "./Navbar/Navbar";
 import { observer } from "mobx-react-lite";
 import { runInAction } from "mobx";
 import { useEffect } from "react";
+import { vacanciesData } from "@/common/vacanciesData";
 
 export const Data = observer(() => {
-  const {
-    data: data,
-    isLoading: dataLoading,
-    error: dataError,
-  } = useSWR(() => {
-    return `vacancy/`;
-  }, BaseFetcher);
+  // const {
+  //   data: data,
+  //   isLoading: dataLoading,
+  //   error: dataError,
+  // } = useSWR(() => {
+  //   return `vacancy/`;
+  // }, BaseFetcher);
+
+  const data = vacanciesData;
 
   useEffect(() => {
     if (data) {
@@ -31,27 +34,27 @@ export const Data = observer(() => {
     }
   }, [data]);
 
-  if (dataLoading) {
-    return (
-      <div className={styles.root}>
-        <div className={styles.wrapper}>
-          {_.range(9).map((i: number) => (
-            <Skeleton
-              key={i}
-              variant="rectangular"
-              width={401}
-              height={250}
-              animation="wave"
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
+  // if (dataLoading) {
+  //   return (
+  //     <div className={styles.root}>
+  //       <div className={styles.wrapper}>
+  //         {_.range(9).map((i: number) => (
+  //           <Skeleton
+  //             key={i}
+  //             variant="rectangular"
+  //             width={401}
+  //             height={250}
+  //             animation="wave"
+  //           />
+  //         ))}
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-  if (dataError) {
-    return <div className={styles.error}>{"Ошибка :("}</div>;
-  }
+  // if (dataError) {
+  //   return <div className={styles.error}>{"Ошибка :("}</div>;
+  // }
 
   const vacancies = vacanciesPageSettingsStore.isSearch
     ? vacanciesDataStore.filteredVacanciesBySearch
