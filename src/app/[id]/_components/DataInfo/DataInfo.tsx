@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import useSWR from "swr";
+// import useSWR from "swr";
 import styles from "./DataInfo.module.scss";
-import { VacancyFetcher } from "@/common/fetcher";
+// import { VacancyFetcher } from "@/common/fetcher";
 import Link from "next/link";
 import { BackArrowIcon } from "@/public/index";
-import { Divider, Skeleton } from "@mui/material";
+import { Divider } from "@mui/material";
 import Image from "next/image";
 import { departmentsImages } from "@/common/images";
+import { getVacancyInfoData } from "@/common/vacanciesData";
 
 export const DataInfo = () => {
   const [uuid, setUuid] = useState("");
@@ -18,41 +19,43 @@ export const DataInfo = () => {
     setUuid(pathname);
   }, []);
 
-  const {
-    data: dataInfo,
-    isLoading: dataInfoLoading,
-    error: dataInfoError,
-  } = useSWR(() => {
-    return `${uuid}`;
-  }, VacancyFetcher);
+  const dataInfo = getVacancyInfoData(uuid.replace("/", ""));
 
-  if (dataInfoLoading) {
-    return (
-      <div className={styles.root}>
-        <div className={styles.back}>
-          <Link href="/" className={styles.link}>
-            <div className={styles.arrow}>
-              <BackArrowIcon />
-            </div>
-            Все вакансии
-          </Link>
-        </div>
+  // const {
+  //   data: dataInfo,
+  //   isLoading: dataInfoLoading,
+  //   error: dataInfoError,
+  // } = useSWR(() => {
+  //   return `${uuid}`;
+  // }, VacancyFetcher);
 
-        <Skeleton
-          key={1}
-          sx={{ borderRadius: "12px" }}
-          variant="rectangular"
-          width={950}
-          height={500}
-          animation="wave"
-        />
-      </div>
-    );
-  }
+  // if (dataInfoLoading) {
+  //   return (
+  //     <div className={styles.root}>
+  //       <div className={styles.back}>
+  //         <Link href="/" className={styles.link}>
+  //           <div className={styles.arrow}>
+  //             <BackArrowIcon />
+  //           </div>
+  //           Все вакансии
+  //         </Link>
+  //       </div>
 
-  if (dataInfoError) {
-    return <div className={styles.error}>{"Ошибка :("}</div>;
-  }
+  //       <Skeleton
+  //         key={1}
+  //         sx={{ borderRadius: "12px" }}
+  //         variant="rectangular"
+  //         width={950}
+  //         height={500}
+  //         animation="wave"
+  //       />
+  //     </div>
+  //   );
+  // }
+
+  // if (dataInfoError) {
+  //   return <div className={styles.error}>{"Ошибка :("}</div>;
+  // }
 
   return (
     <div className={styles.root}>

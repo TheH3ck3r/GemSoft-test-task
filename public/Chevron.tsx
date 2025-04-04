@@ -1,4 +1,4 @@
-import { IconProps } from "@/data-types/icons";
+import { IconProps } from "@/types/icons";
 
 export default function Chevron({
   color = "var(--gs-text-color)",
