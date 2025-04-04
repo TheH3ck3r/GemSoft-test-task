@@ -16,9 +16,15 @@ export const Header = () => {
         <Link href={"/"}>
           <LogoIcon />
         </Link>
-        <Button color="error" onClick={() => setIsModalOpen(true)}>
-          Выйти
-        </Button>
+        <div style={{ gap: "12px", display: "flex" }}>
+          <Link href={"/users"}>
+            <Button>Пользователи</Button>
+          </Link>
+
+          <Button color="error" onClick={() => setIsModalOpen(true)}>
+            Выйти
+          </Button>
+        </div>
 
         <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <Box className={styles.modal}>
