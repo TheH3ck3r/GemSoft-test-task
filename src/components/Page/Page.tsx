@@ -3,7 +3,7 @@
 import React from "react";
 import styles from "./Page.module.scss";
 
-import { Header } from "./Header";
+import { Header } from "../Header";
 import { usePathname } from "next/navigation";
 
 export type PageProps = {
