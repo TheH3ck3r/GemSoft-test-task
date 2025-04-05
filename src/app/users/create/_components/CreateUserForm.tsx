@@ -1,18 +1,10 @@
-import Link from "next/link";
 import styles from "./CreateUserForm.module.scss";
-import { BackArrowIcon } from "@/public/index";
+import { Back } from "@/components/Back";
 
 export const CreateUserForm = () => {
   return (
     <div className={styles.root}>
-      <div className={styles.back}>
-        <Link href="/users" className={styles.link}>
-          <div className={styles.arrow}>
-            <BackArrowIcon />
-          </div>
-          Все пользователи
-        </Link>
-      </div>
+      <Back text="Все пользователи" path="/users" />
 
       <div>Тут будет форма</div>
     </div>
