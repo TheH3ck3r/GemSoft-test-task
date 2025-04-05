@@ -1,0 +1,42 @@
+.root {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+  grid-template-rows: auto;
+}
+
+.user_card {
+  cursor: pointer;
+  min-width: 200px;
+  padding: 24px;
+  display: flex;
+  background-color: var(--gs-second-background-color);
+  border-radius: 12px;
+  flex-direction: column;
+  color: var(--gs-text-color);
+  gap: 12px;
+}
+
+@media (max-width: 1385px) {
+  .root {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (max-width: 1185px) {
+  .root {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 925px) {
+  .root {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 495px) {
+  .root {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
