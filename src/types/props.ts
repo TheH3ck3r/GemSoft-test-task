@@ -32,11 +32,11 @@ export type VacanciesDataFiltration = {
   filtration: Option[];
 };
 
-export type CreateUserForm = {
+export type UserForm = {
   lastName: string;
   firstName: string;
   middleName: string;
-  age: string;
+  age: number;
   gender: string;
   interests: string[];
   musicGenre: string;
