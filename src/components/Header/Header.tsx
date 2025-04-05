@@ -17,6 +17,10 @@ export const Header = () => {
           <LogoIcon />
         </Link>
         <div style={{ gap: "12px", display: "flex" }}>
+          <Link href={"/"}>
+            <Button>Вакансии</Button>
+          </Link>
+
           <Link href={"/users"}>
             <Button>Пользователи</Button>
           </Link>
