@@ -1,0 +1,23 @@
+.root {
+  margin-top: 2em;
+  width: 100%;
+}
+
+.link {
+  transition: transform 0.2s;
+  display: flex;
+  width: 200px;
+  color: var(--gs-text-color);
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5em;
+
+  &:hover {
+    transform: translate(-4px, 0);
+  }
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+}

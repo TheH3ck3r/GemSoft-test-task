@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 // import useSWR from "swr";
 import styles from "./DataInfo.module.scss";
 // import { VacancyFetcher } from "@/common/fetcher";
-import Link from "next/link";
-import { BackArrowIcon } from "@/public/index";
 import { Divider } from "@mui/material";
 import Image from "next/image";
 import { departmentsImages } from "@/common/images";
 import { getVacancyInfoData } from "@/common/vacanciesData";
+import { Back } from "@/components/Back";
 
 export const DataInfo = () => {
   const [uuid, setUuid] = useState("");
@@ -59,14 +58,7 @@ export const DataInfo = () => {
 
   return (
     <div className={styles.root}>
-      <div className={styles.back}>
-        <Link href="/" className={styles.link}>
-          <div className={styles.arrow}>
-            <BackArrowIcon />
-          </div>
-          Все данные
-        </Link>
-      </div>
+      <Back text="Все вакансии" path="/" />
 
       <div className={styles.wrapper}>
         <Image
