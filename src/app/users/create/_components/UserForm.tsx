@@ -1,9 +1,9 @@
 "use client";
 
-import styles from "./CreateUserForm.module.scss";
+import styles from "./UserForm.module.scss";
 import { Back } from "@/components/Back";
 import { useForm, Controller } from "react-hook-form";
-import { UserForm } from "@/data-types/props";
+import { UserFormProps } from "@/data-types/props";
 import {
   Autocomplete,
   Button,
@@ -18,7 +18,7 @@ import {
   TextField,
 } from "@mui/material";
 
-export const CreateUserForm = () => {
+export const UserForm = () => {
   const genders = [
     { value: "male", label: "Мужской" },
     { value: "female", label: "Женский" },
@@ -47,7 +47,7 @@ export const CreateUserForm = () => {
     watch,
     reset,
     formState: { errors },
-  } = useForm<UserForm>({
+  } = useForm<UserFormProps>({
     defaultValues: {
       lastName: "",
       firstName: "",
@@ -59,7 +59,7 @@ export const CreateUserForm = () => {
     },
   });
 
-  const onSubmit = (data: UserForm) => {
+  const onSubmit = (data: UserFormProps) => {
     reset();
     console.log(data);
   };
@@ -185,7 +185,7 @@ export const CreateUserForm = () => {
                 {...register("musicGenre", {
                   required: "Это поле обязательно",
                 })}
-                label="Жанр музыки"
+                label="* Жанр музыки"
                 error={!!errors.musicGenre}
                 helperText={errors.musicGenre?.message}
               />
@@ -195,7 +195,7 @@ export const CreateUserForm = () => {
 
         <div className={styles.buttons}>
           <Button type="submit" variant="contained" color="primary" fullWidth>
-            Отправить
+            Сохранить
           </Button>
 
           <Button onClick={() => reset()} variant="outlined" fullWidth>
