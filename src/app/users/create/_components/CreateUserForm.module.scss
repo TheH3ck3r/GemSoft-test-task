@@ -13,3 +13,17 @@
   width: 100%;
   max-width: 500px;
 }
+
+.full_width {
+  display: flex;
+  width: 100%;
+}
+
+.buttons {
+  padding-top: 24px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  gap: 12px;
+}

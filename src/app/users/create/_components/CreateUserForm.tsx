@@ -5,9 +5,12 @@ import { Back } from "@/components/Back";
 import { useForm, Controller } from "react-hook-form";
 import { UserForm } from "@/data-types/props";
 import {
+  Autocomplete,
   Button,
+  Checkbox,
   FormControl,
   FormControlLabel,
+  FormGroup,
   FormHelperText,
   FormLabel,
   Radio,
@@ -42,7 +45,7 @@ export const CreateUserForm = () => {
     handleSubmit,
     control,
     watch,
-    setValue,
+    reset,
     formState: { errors },
   } = useForm<UserForm>({
     defaultValues: {
@@ -57,6 +60,7 @@ export const CreateUserForm = () => {
   });
 
   const onSubmit = (data: UserForm) => {
+    reset();
     console.log(data);
   };
 
@@ -100,8 +104,10 @@ export const CreateUserForm = () => {
           type="number"
         />
 
+        {/* TODO: Переделать нормально */}
         <FormControl
           component="fieldset"
+          className={styles.full_width}
           margin="normal"
           error={!!errors.gender}
         >
@@ -128,11 +134,78 @@ export const CreateUserForm = () => {
           <FormHelperText>{errors.gender?.message}</FormHelperText>
         </FormControl>
 
-        {/* Тут должен быть выбор интересов */}
+        {/* TODO: Переделать нормально */}
+        <FormControl
+          component="fieldset"
+          error={!!errors.interests}
+          margin="normal"
+        >
+          <FormLabel>* Интересы</FormLabel>
+          <FormGroup row>
+            {interests.map((interest) => (
+              <FormControlLabel
+                key={interest.value}
+                label={interest.label}
+                control={
+                  <Controller
+                    name="interests"
+                    control={control}
+                    rules={{
+                      validate: (selected) =>
+                        selected.length >= 2 || "Выберите минимум два интереса",
+                    }}
+                    render={({ field }) => (
+                      <Checkbox
+                        {...field}
+                        checked={field.value.includes(interest.value)}
+                        onChange={(e) => {
+                          const selected = e.target.checked
+                            ? [...field.value, interest.value]
+                            : field.value.filter((v) => v !== interest.value);
+                          field.onChange(selected);
+                        }}
+                      />
+                    )}
+                  />
+                }
+              />
+            ))}
+          </FormGroup>
+          {errors.interests && (
+            <FormHelperText>{errors.interests.message}</FormHelperText>
+          )}
+        </FormControl>
 
-        <Button type="submit" variant="contained" color="primary" fullWidth>
-          Отправить
-        </Button>
+        {watch("interests").includes("music") && (
+          <Autocomplete
+            options={musicGenres}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                {...register("musicGenre", {
+                  required: "Это поле обязательно",
+                })}
+                label="Жанр музыки"
+                error={!!errors.musicGenre}
+                helperText={errors.musicGenre?.message}
+              />
+            )}
+          ></Autocomplete>
+        )}
+
+        <div className={styles.buttons}>
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Отправить
+          </Button>
+
+          <Button onClick={() => reset()} variant="outlined" fullWidth>
+            Сбросить
+          </Button>
+
+          {/* <Button type="submit" variant="contained" color="primary" fullWidth>
+            УДОЛИТЬ!
+          </Button> */}
+        </div>
       </form>
     </div>
   );
