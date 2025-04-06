@@ -1,91 +1,43 @@
+"use client";
+
 import Link from "next/link";
 import styles from "./UsersData.module.scss";
+// import { GET } from "@/app/api/route";
+// import { useState } from "react";
+import { UserProps } from "@/types/props";
 
 export const UsersData = () => {
-  const testUsers = [
-    {
-      id: "1",
-      firstName: "Имя 1",
-      lastName: "Фамилия 1",
-    },
-    {
-      id: "1",
-      firstName: "Имя 2",
-      lastName: "Фамилия 2",
-    },
-    {
-      id: "1",
-      firstName: "Имя 3",
-      lastName: "Фамилия 3",
-    },
-    {
-      id: "1",
-      firstName: "Имя 4",
-      lastName: "Фамилия 4",
-    },
-    {
-      id: "1",
-      firstName: "Имя 5",
-      lastName: "Фамилия 5",
-    },
+  // const [users, setUsers] = useState([]);
 
-    {
-      id: "1",
-      firstName: "Имя 1",
-      lastName: "Фамилия 1",
-    },
-    {
-      id: "1",
-      firstName: "Имя 2",
-      lastName: "Фамилия 2",
-    },
-    {
-      id: "1",
-      firstName: "Имя 3",
-      lastName: "Фамилия 3",
-    },
-    {
-      id: "1",
-      firstName: "Имя 4",
-      lastName: "Фамилия 4",
-    },
-    {
-      id: "1",
-      firstName: "Имя 5",
-      lastName: "Фамилия 5",
-    },
+  // GET()
+  //   .then((response) => response.json())
+  //   .then((data) => setUsers(data));
 
+  const users: UserProps[] = [
     {
-      id: "1",
-      firstName: "Имя 1",
-      lastName: "Фамилия 1",
+      firstName: "Тестовое имя 1",
+      lastName: "Тестовая фамилия 1",
+      middleName: "Тестовое очество 1",
+      age: 21,
+      gender: "male",
+      interests: ["music", "games"],
+      musicGenre: "rock",
     },
     {
-      id: "1",
-      firstName: "Имя 2",
-      lastName: "Фамилия 2",
-    },
-    {
-      id: "1",
-      firstName: "Имя 3",
-      lastName: "Фамилия 3",
-    },
-    {
-      id: "1",
-      firstName: "Имя 4",
-      lastName: "Фамилия 4",
-    },
-    {
-      id: "1",
-      firstName: "Имя 5",
-      lastName: "Фамилия 5",
+      firstName: "Тестовое имя 2",
+      lastName: "Тестовая фамилия 2",
+      middleName: "Тестовое очество 2",
+      age: 35,
+      gender: "female",
+      interests: ["music"],
+      musicGenre: "hiphop",
     },
   ];
 
   return (
     <div className={styles.root}>
-      {testUsers.map((user, index) => (
-        <Link key={index} href={`/users/${user.id}`}>
+      {users.map((user: UserProps, index) => (
+        <Link key={index} href={`/users/${index}`}>
           <div className={styles.user_card}>
             <div>{user.firstName}</div>
             <div>{user.lastName}</div>
