@@ -1,0 +1,105 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  height: 80dvh;
+  color: var(--gs-text-color);
+  padding: 100px 0 100px 0;
+  font-size: 200px;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.text {
+  display: flex;
+  font-size: 32px;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  color: var(--gs-text-color);
+}
+
+.container {
+  text-align: center;
+}
+
+.glitch {
+  font-weight: bold;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+  position: relative;
+  text-shadow: 0.05em 0 0 #71aaeb, -0.03em -0.04em 0 #ee1415,
+    0.025em 0.04em 0 #47453800;
+  animation: glitch 725ms infinite;
+}
+
+.glitch span {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.glitch span:first-child {
+  animation: glitch 500ms infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  transform: translate(-0.04em, -0.03em);
+  opacity: 0.75;
+}
+
+.glitch span:last-child {
+  animation: glitch 375ms infinite;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  transform: translate(0.04em, 0.03em);
+  opacity: 0.75;
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: 0.05em 0 0 #71aaeb, -0.03em -0.04em 0 #ee1415,
+      0.025em 0.04em 0 #47453800;
+  }
+  15% {
+    text-shadow: 0.05em 0 0 #71aaeb, -0.03em -0.04em 0 #ee1415,
+      0.025em 0.04em 0 #47453800;
+  }
+  16% {
+    text-shadow: -0.05em -0.025em 0 #71aaeb, 0.025em 0.035em 0 #ee1415,
+      -0.05em -0.05em 0 #47453800;
+  }
+  49% {
+    text-shadow: -0.05em -0.025em 0 #71aaeb, 0.025em 0.035em 0 #ee1415,
+      -0.05em -0.05em 0 #47453800;
+  }
+  50% {
+    text-shadow: 0.05em 0.035em 0 #71aaeb, 0.03em 0 0 #ee1415,
+      0 -0.04em 0 #47453800;
+  }
+  99% {
+    text-shadow: 0.05em 0.035em 0 #71aaeb, 0.03em 0 0 #ee1415,
+      0 -0.04em 0 #47453800;
+  }
+  100% {
+    text-shadow: -0.05em 0 0 #71aaeb, -0.025em -0.04em 0 #ee1415,
+      -0.04em -0.025em 0 #47453800;
+  }
+}
+
+@media (max-width: 745px) {
+  .error {
+    font-size: 100px;
+    padding: 50px 0 50px 0;
+  }
+  .text {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 370px) {
+  .error {
+    font-size: 50px;
+    padding: 25px 0 25px 0;
+  }
+  .text {
+    font-size: 12px;
+  }
+}
