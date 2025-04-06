@@ -31,3 +31,13 @@ export type VacanciesDataFiltration = {
   search: string;
   filtration: Option[];
 };
+
+export type UserFormProps = {
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  age: number;
+  gender: string;
+  interests: string[];
+  musicGenre: string;
+};

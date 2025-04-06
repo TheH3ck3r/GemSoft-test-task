@@ -6,79 +6,79 @@ export const UsersData = () => {
     {
       id: "1",
       firstName: "Имя 1",
-      middleName: "Фамилия 1",
+      lastName: "Фамилия 1",
     },
     {
       id: "1",
       firstName: "Имя 2",
-      middleName: "Фамилия 2",
+      lastName: "Фамилия 2",
     },
     {
       id: "1",
       firstName: "Имя 3",
-      middleName: "Фамилия 3",
+      lastName: "Фамилия 3",
     },
     {
       id: "1",
       firstName: "Имя 4",
-      middleName: "Фамилия 4",
+      lastName: "Фамилия 4",
     },
     {
       id: "1",
       firstName: "Имя 5",
-      middleName: "Фамилия 5",
+      lastName: "Фамилия 5",
     },
 
     {
       id: "1",
       firstName: "Имя 1",
-      middleName: "Фамилия 1",
+      lastName: "Фамилия 1",
     },
     {
       id: "1",
       firstName: "Имя 2",
-      middleName: "Фамилия 2",
+      lastName: "Фамилия 2",
     },
     {
       id: "1",
       firstName: "Имя 3",
-      middleName: "Фамилия 3",
+      lastName: "Фамилия 3",
     },
     {
       id: "1",
       firstName: "Имя 4",
-      middleName: "Фамилия 4",
+      lastName: "Фамилия 4",
     },
     {
       id: "1",
       firstName: "Имя 5",
-      middleName: "Фамилия 5",
+      lastName: "Фамилия 5",
     },
 
     {
       id: "1",
       firstName: "Имя 1",
-      middleName: "Фамилия 1",
+      lastName: "Фамилия 1",
     },
     {
       id: "1",
       firstName: "Имя 2",
-      middleName: "Фамилия 2",
+      lastName: "Фамилия 2",
     },
     {
       id: "1",
       firstName: "Имя 3",
-      middleName: "Фамилия 3",
+      lastName: "Фамилия 3",
     },
     {
       id: "1",
       firstName: "Имя 4",
-      middleName: "Фамилия 4",
+      lastName: "Фамилия 4",
     },
     {
       id: "1",
       firstName: "Имя 5",
-      middleName: "Фамилия 5",
+      lastName: "Фамилия 5",
     },
   ];
 
@@ -88,7 +88,7 @@ export const UsersData = () => {
         <Link key={index} href={`/users/${user.id}`}>
           <div className={styles.user_card}>
             <div>{user.firstName}</div>
-            <div>{user.middleName}</div>
+            <div>{user.lastName}</div>
           </div>
         </Link>
       ))}

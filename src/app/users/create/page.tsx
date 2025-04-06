@@ -1,5 +1,5 @@
-import { CreateUserForm } from "./_components";
+import { UserForm } from "./_components";
 
 export default function UserCreatePage() {
-  return <CreateUserForm />;
+  return <UserForm />;
 }
