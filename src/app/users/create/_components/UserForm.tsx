@@ -3,7 +3,7 @@
 import styles from "./UserForm.module.scss";
 import { Back } from "@/components/Back";
 import { useForm, Controller } from "react-hook-form";
-import { UserFormProps } from "@/data-types/props";
+import { UserProps } from "@/data-types/props";
 import {
   Autocomplete,
   Button,
@@ -47,7 +47,7 @@ export const UserForm = () => {
     watch,
     reset,
     formState: { errors },
-  } = useForm<UserFormProps>({
+  } = useForm<UserProps>({
     defaultValues: {
       lastName: "",
       firstName: "",
@@ -59,7 +59,7 @@ export const UserForm = () => {
     },
   });
 
-  const onSubmit = (data: UserFormProps) => {
+  const onSubmit = (data: UserProps) => {
     reset();
     console.log(data);
   };
