@@ -177,6 +177,7 @@ export const UserForm = () => {
           )}
         </FormControl>
 
+        {/* TODO: в форму уходит label, а не value */}
         {watch("interests").includes("music") && (
           <Autocomplete
             options={musicGenres}
@@ -191,7 +192,7 @@ export const UserForm = () => {
                 helperText={errors.musicGenre?.message}
               />
             )}
-          ></Autocomplete>
+          />
         )}
 
         <div className={styles.buttons}>

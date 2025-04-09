@@ -24,6 +24,8 @@ export const createUser = (user: UserProps) =>
     body: JSON.stringify(user),
   });
 
+export const deleteUsers = () => fetch(`/api/users`, { method: "DELETE" });
+
 // export const updateUser = (id: number, user: UserProps) =>
 //   fetch(`/api/user?id=${id}`, {
 //     method: "PUT",

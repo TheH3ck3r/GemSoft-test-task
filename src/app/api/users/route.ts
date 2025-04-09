@@ -10,3 +10,8 @@ export async function POST(req: Request) {
   usersDataStore.addUser(newUser);
   return NextResponse.json({ success: "Ramus says OK!" }, { status: 201 });
 }
+
+export async function DELETE() {
+  usersDataStore.setUsersData([]);
+  return NextResponse.json({ success: "Ramus says BRUH!" }, { status: 200 });
+}

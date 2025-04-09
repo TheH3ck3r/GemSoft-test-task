@@ -4,13 +4,13 @@ import { makeAutoObservable } from "mobx";
 export class UsersDataStore {
   usersData: UserProps[] = [
     {
-      firstName: "Иван",
-      lastName: "Иванов",
-      middleName: "Иванович",
-      age: 30,
+      firstName: "Михаил",
+      lastName: "Нечаев",
+      middleName: "Александрович",
+      age: 20,
       gender: "male",
-      interests: ["music", "games"],
-      musicGenre: "rock",
+      interests: ["music", "games", "movies"],
+      musicGenre: "electronic",
     },
   ];
 
