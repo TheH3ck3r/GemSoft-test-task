@@ -1,3 +1,4 @@
+import { UserProps } from "@/types/props";
 import { kBaseEndpoint } from "./app";
 
 export const BaseFetcher = (url: string) =>
@@ -9,3 +10,25 @@ export const VacancyFetcher = (url: string) =>
   fetch(`${kBaseEndpoint}vacancy${url}`, { method: "GET" }).then((data) =>
     data.json()
   );
+
+// ----------| Тестовый бэк |----------
+
+export const getAllUsers = () => fetch("/api/users").then((res) => res.json());
+
+export const getUserById = (id: number) =>
+  fetch(`/api/user?id=${id}`).then((res) => res.json());
+
+export const createUser = (user: UserProps) =>
+  fetch("/api/users", {
+    method: "POST",
+    body: JSON.stringify(user),
+  });
+
+export const updateUser = (id: number, user: UserProps) =>
+  fetch(`/api/user?id=${id}`, {
+    method: "PUT",
+    body: JSON.stringify(user),
+  });
+
+export const deleteUser = (id: number) =>
+  fetch(`/api/user?id=${id}`, { method: "DELETE" });
