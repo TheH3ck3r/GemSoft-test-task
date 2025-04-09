@@ -1,14 +1,12 @@
 import usersDataStore from "@/common/stores/usersDataStore";
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  return new Response(JSON.stringify(usersDataStore.users), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+  return NextResponse.json(usersDataStore.users, { status: 200 });
 }
 
-// export async function POST(req: Request) {
-//   const newUser = await req.json();
-//   users.push(newUser);
-//   return new Response(JSON.stringify({ success: true }), { status: 201 });
-// }
+export async function POST(req: Request) {
+  const newUser = await req.json();
+  usersDataStore.addUser(newUser);
+  return NextResponse.json({ success: "Ramus says OK!" }, { status: 201 });
+}

@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import styles from "./UsersData.module.scss";
-// import { GET } from "@/app/api/route";
-// import { useState } from "react";
 import { UserProps } from "@/types/props";
 import { useEffect, useState } from "react";
 import { getAllUsers } from "@/common/fetcher";

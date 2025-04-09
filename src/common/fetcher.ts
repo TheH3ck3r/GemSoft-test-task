@@ -1,4 +1,4 @@
-// import { UserProps } from "@/types/props";
+import { UserProps } from "@/types/props";
 import { kBaseEndpoint } from "./app";
 
 export const BaseFetcher = (url: string) =>
@@ -18,11 +18,11 @@ export const getAllUsers = () => fetch("/api/users").then((res) => res.json());
 export const getUserById = (id: string) =>
   fetch(`/api/user?id=${id}`).then((res) => res.json());
 
-// export const createUser = (user: UserProps) =>
-//   fetch("/api/users", {
-//     method: "POST",
-//     body: JSON.stringify(user),
-//   });
+export const createUser = (user: UserProps) =>
+  fetch("/api/users", {
+    method: "POST",
+    body: JSON.stringify(user),
+  });
 
 // export const updateUser = (id: number, user: UserProps) =>
 //   fetch(`/api/user?id=${id}`, {

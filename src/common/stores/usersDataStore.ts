@@ -2,7 +2,7 @@ import { UserProps } from "@/types/props";
 import { makeAutoObservable } from "mobx";
 
 export class UsersDataStore {
-  UsersData: UserProps[] = [
+  usersData: UserProps[] = [
     {
       firstName: "Иван",
       lastName: "Иванов",
@@ -19,11 +19,15 @@ export class UsersDataStore {
   }
 
   setUsersData(data: UserProps[]) {
-    this.UsersData = data;
+    this.usersData = data;
+  }
+
+  addUser(partialData: UserProps) {
+    this.usersData.push(partialData);
   }
 
   get users(): UserProps[] {
-    return this.UsersData;
+    return this.usersData;
   }
 }
 

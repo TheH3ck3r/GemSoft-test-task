@@ -17,6 +17,7 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
+import { createUser } from "@/common/fetcher";
 
 export const UserForm = () => {
   const genders = [
@@ -61,7 +62,7 @@ export const UserForm = () => {
 
   const onSubmit = (data: UserProps) => {
     reset();
-    console.log(data);
+    createUser(data);
   };
 
   return (
