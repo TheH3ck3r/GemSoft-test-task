@@ -1,11 +1,9 @@
+import usersDataStore from "@/common/stores/usersDataStore";
 import { NextResponse } from "next/server";
-import { users } from "../users/route";
 
-export async function GET(id: number) {
-  console.log("GET отработал");
-  console.log(users.filter((user, index) => index == id));
-  return NextResponse.json(
-    users.filter((user, index) => index == id),
-    { status: 200 }
-  );
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const id = Number(searchParams.get("id"));
+
+  return NextResponse.json(usersDataStore.users[id], { status: 200 });
 }

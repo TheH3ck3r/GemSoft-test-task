@@ -11,7 +11,9 @@ export const UserInfo = () => {
   console.log(user);
 
   useEffect(() => {
-    getUserById(1).then(setUser);
+    const { pathname } = window.location;
+    console.log(pathname);
+    getUserById("0").then(setUser);
   }, []);
   return (
     <div className={styles.root}>
