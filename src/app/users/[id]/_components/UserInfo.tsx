@@ -31,7 +31,7 @@ export const UserInfo = () => {
               // TODO: Убрать дублирование кода
               const { pathname } = window.location;
               const id = pathname.split("/")[2];
-              deleteUser(+id);
+              deleteUser(id);
             }}
           >
             Удалить
