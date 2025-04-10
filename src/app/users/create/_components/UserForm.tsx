@@ -21,8 +21,11 @@ import {
 } from "@mui/material";
 import { createUser } from "@/common/fetcher";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export const UserForm = () => {
+  const router = useRouter();
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
     "success"
@@ -79,10 +82,18 @@ export const UserForm = () => {
   const onSubmit: SubmitHandler<UserProps> = async (data) => {
     try {
       const res = await createUser(data);
+      const json = await res.json();
+
       if (!res.ok) {
         setSnackbarSeverity("error");
       } else {
         setSnackbarSeverity("success");
+
+        // setTimeout сделан для того, чтобы показать, что Snackbar работает при успешном создании
+        setTimeout(() => {
+          router.push(`/users/${json.id}`);
+        }, 1000);
+
         reset();
       }
     } catch {
