@@ -2,9 +2,10 @@
 
 import styles from "./UserForm.module.scss";
 import { Back } from "@/components/Back";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { UserProps } from "@/data-types/props";
 import {
+  Alert,
   Autocomplete,
   Button,
   Checkbox,
@@ -15,11 +16,29 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  Snackbar,
   TextField,
 } from "@mui/material";
 import { createUser } from "@/common/fetcher";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export const UserForm = () => {
+  const router = useRouter();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
+    "success"
+  );
+
+  const handleCloseSnackbar = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") return;
+    setSnackbarOpen(false);
+  };
+
   const genders = [
     { value: "male", label: "Мужской" },
     { value: "female", label: "Женский" },
@@ -60,9 +79,28 @@ export const UserForm = () => {
     },
   });
 
-  const onSubmit = (data: UserProps) => {
-    reset();
-    createUser(data);
+  const onSubmit: SubmitHandler<UserProps> = async (data) => {
+    try {
+      const res = await createUser(data);
+      const json = await res.json();
+
+      if (!res.ok) {
+        setSnackbarSeverity("error");
+      } else {
+        setSnackbarSeverity("success");
+
+        // setTimeout сделан для того, чтобы показать, что Snackbar работает при успешном создании
+        setTimeout(() => {
+          router.push(`/users/${json.id}`);
+        }, 1000);
+
+        reset();
+      }
+    } catch {
+      setSnackbarSeverity("error");
+    } finally {
+      setSnackbarOpen(true);
+    }
   };
 
   return (
@@ -209,6 +247,23 @@ export const UserForm = () => {
           </Button> */}
         </div>
       </form>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarSeverity == "success"
+            ? "Данные сохранены"
+            : "Произошла ошибка"}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

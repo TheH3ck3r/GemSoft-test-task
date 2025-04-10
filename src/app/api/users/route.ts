@@ -18,8 +18,12 @@ export async function POST(req: Request) {
     );
   }
   usersDataStore.addUser(newUser);
+  const newId = usersDataStore.users.length - 1;
 
-  return NextResponse.json({ success: "Ramus says OK!" }, { status: 201 });
+  return NextResponse.json(
+    { success: "Ramus says OK!", id: newId },
+    { status: 201 }
+  );
 }
 
 export async function DELETE() {
