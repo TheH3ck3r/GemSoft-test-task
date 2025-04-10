@@ -7,3 +7,11 @@ export async function GET(req: Request) {
 
   return NextResponse.json(usersDataStore.users[id], { status: 200 });
 }
+
+export async function DELETE(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const id = Number(searchParams.get("id"));
+  usersDataStore.deleteUser(id);
+
+  return NextResponse.json({ success: "Ramus says BRUH!" }, { status: 200 });
+}
