@@ -3,7 +3,7 @@
 import styles from "./UserForm.module.scss";
 import { Back } from "@/components/Back";
 import { useForm, Controller } from "react-hook-form";
-import { UserFormProps } from "@/data-types/props";
+import { UserProps } from "@/data-types/props";
 import {
   Autocomplete,
   Button,
@@ -17,6 +17,7 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
+import { createUser } from "@/common/fetcher";
 
 export const UserForm = () => {
   const genders = [
@@ -47,7 +48,7 @@ export const UserForm = () => {
     watch,
     reset,
     formState: { errors },
-  } = useForm<UserFormProps>({
+  } = useForm<UserProps>({
     defaultValues: {
       lastName: "",
       firstName: "",
@@ -59,9 +60,9 @@ export const UserForm = () => {
     },
   });
 
-  const onSubmit = (data: UserFormProps) => {
+  const onSubmit = (data: UserProps) => {
     reset();
-    console.log(data);
+    createUser(data);
   };
 
   return (
@@ -176,6 +177,7 @@ export const UserForm = () => {
           )}
         </FormControl>
 
+        {/* TODO: в форму уходит label, а не value */}
         {watch("interests").includes("music") && (
           <Autocomplete
             options={musicGenres}
@@ -190,7 +192,7 @@ export const UserForm = () => {
                 helperText={errors.musicGenre?.message}
               />
             )}
-          ></Autocomplete>
+          />
         )}
 
         <div className={styles.buttons}>

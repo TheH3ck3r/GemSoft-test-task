@@ -32,7 +32,7 @@ export type VacanciesDataFiltration = {
   filtration: Option[];
 };
 
-export type UserFormProps = {
+export type UserProps = {
   lastName: string;
   firstName: string;
   middleName: string;
