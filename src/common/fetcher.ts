@@ -30,11 +30,11 @@ export const deleteUsers = () => fetch(`/api/users`, { method: "DELETE" });
 export const getUserById = (id: string) =>
   fetch(`/api/user?id=${id}`).then((res) => res.json());
 
-// export const updateUser = (id: number, user: UserProps) =>
-//   fetch(`/api/user?id=${id}`, {
-//     method: "PUT",
-//     body: JSON.stringify(user),
-//   });
+export const updateUser = (id: string, user: UserProps) =>
+  fetch(`/api/user?id=${id}`, {
+    method: "PUT",
+    body: JSON.stringify(user),
+  });
 
 export const deleteUser = (id: string) =>
   fetch(`/api/user?id=${id}`, { method: "DELETE" });

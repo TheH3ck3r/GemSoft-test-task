@@ -22,6 +22,10 @@ export class UsersDataStore {
     this.usersData = data;
   }
 
+  updateUser(id: number, data: UserProps) {
+    this.usersData[id] = data;
+  }
+
   deleteUser(id: number) {
     this.usersData.splice(id, 1);
   }
