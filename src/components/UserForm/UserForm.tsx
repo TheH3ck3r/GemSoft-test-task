@@ -4,6 +4,7 @@ import styles from "./UserForm.module.scss";
 import { Back } from "@/components/Back";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { UserProps } from "@/data-types/props";
+import { useParams } from "next/navigation";
 import {
   Alert,
   Autocomplete,
@@ -31,6 +32,9 @@ type UserFormProps = {
 
 export const UserForm: FC<UserFormProps> = ({ page }) => {
   const router = useRouter();
+  const params = useParams();
+
+  console.log(params);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
@@ -46,26 +50,15 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
     setSnackbarOpen(false);
   };
 
-  // useEffect(() => {
-  //   if (page == "update") {
-  //     const { pathname } = window.location;
-  //     const id = pathname.split("/")[2];
-  //     getUserById(id).then(setUser);
-  //   }
-  // }, []);
-
-  // const defaultValues =
-  //   page == "create"
-  //     ? {
-  //         lastName: "",
-  //         firstName: "",
-  //         middleName: "",
-  //         age: 0,
-  //         gender: "",
-  //         interests: [],
-  //         musicGenre: "",
-  //       }
-  //     : user;
+  useEffect(() => {
+    if (page === "update" && params?.id) {
+      getUserById(params.id.toString()).then((userData) => {
+        if (userData) {
+          reset(userData);
+        }
+      });
+    }
+  }, [page, params?.id]);
 
   const {
     register,
@@ -255,10 +248,9 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
             <Link href={"/users"}>
               <Button
                 onClick={() => {
-                  // TODO: Убрать костыль
-                  const { pathname } = window.location;
-                  const id = pathname.split("/")[2];
-                  deleteUser(id);
+                  if (params?.id) {
+                    deleteUser(params.id.toString());
+                  }
                 }}
                 variant="contained"
                 color="error"
