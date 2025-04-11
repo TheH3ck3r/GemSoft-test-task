@@ -34,13 +34,10 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
   const router = useRouter();
   const params = useParams();
 
-  console.log(params);
-
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
     "success"
   );
-  // const [user, setUser] = useState<UserProps>();
 
   const handleCloseSnackbar = (
     event?: React.SyntheticEvent | Event,
@@ -50,15 +47,27 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
     setSnackbarOpen(false);
   };
 
-  useEffect(() => {
-    if (page === "update" && params?.id) {
-      getUserById(params.id.toString()).then((userData) => {
-        if (userData) {
-          reset(userData);
+  // Это костыль, но он чинит проблему, что анимация TextField со строками ломается при открытии страницы пользвателя
+  const defaultValues =
+    page == "create"
+      ? {
+          lastName: "",
+          firstName: "",
+          middleName: "",
+          age: 0,
+          gender: "",
+          interests: [],
+          musicGenre: "",
         }
-      });
-    }
-  }, [page, params?.id]);
+      : {
+          lastName: " ",
+          firstName: " ",
+          middleName: " ",
+          age: 0,
+          gender: " ",
+          interests: [],
+          musicGenre: " ",
+        };
 
   const {
     register,
@@ -68,16 +77,18 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
     reset,
     formState: { errors },
   } = useForm<UserProps>({
-    defaultValues: {
-      lastName: "",
-      firstName: "",
-      middleName: "",
-      age: 0,
-      gender: "",
-      interests: [],
-      musicGenre: "",
-    },
+    defaultValues: defaultValues,
   });
+
+  useEffect(() => {
+    if (page === "update" && params?.id) {
+      getUserById(params.id.toString()).then((userData) => {
+        if (userData) {
+          reset(userData);
+        }
+      });
+    }
+  }, [page, params.id, reset]);
 
   const onSubmit: SubmitHandler<UserProps> = async (data) => {
     try {
@@ -89,10 +100,9 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
       } else {
         setSnackbarSeverity("success");
 
-        // setTimeout сделан для того, чтобы показать, что Snackbar работает при успешном создании
-        setTimeout(() => {
+        if (page == "create") {
           router.push(`/users/${json.id}`);
-        }, 1000);
+        }
 
         reset();
       }
@@ -137,12 +147,17 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
 
         <TextField
           label="* Возраст"
-          {...register("age", { required: "Это поле обязательно" })}
+          {...register("age", {
+            required: "Это поле обязательно",
+            pattern: {
+              value: /^[0-9]+$/,
+              message: "Можно вводить только числа",
+            },
+          })}
           error={!!errors.age}
           helperText={errors.age?.message}
           fullWidth
           margin="normal"
-          type="number"
         />
 
         {/* TODO: Переделать нормально */}
@@ -217,19 +232,31 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           )}
         </FormControl>
 
-        {/* TODO: в форму уходит label, а не value */}
+        {/* TODO: в данные формы уходит label, а не value */}
         {watch("interests")?.includes("music") && (
-          <Autocomplete
-            options={musicGenres}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                {...register("musicGenre", {
-                  required: "Это поле обязательно",
-                })}
-                label="* Жанр музыки"
-                error={!!errors.musicGenre}
-                helperText={errors.musicGenre?.message}
+          <Controller
+            name="musicGenre"
+            control={control}
+            rules={{ required: "Это поле обязательно" }}
+            render={({ field: { value, onChange, ref } }) => (
+              <Autocomplete
+                options={musicGenres}
+                getOptionLabel={(option) => option.label}
+                value={
+                  musicGenres.find((option) => option.value === value) || null
+                }
+                onChange={(_, newOption) => {
+                  onChange(newOption ? newOption.value : "");
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="* Жанр музыки"
+                    inputRef={ref}
+                    error={!!errors.musicGenre}
+                    helperText={errors.musicGenre?.message}
+                  />
+                )}
               />
             )}
           />
