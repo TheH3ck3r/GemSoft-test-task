@@ -4,6 +4,7 @@ import styles from "./UserForm.module.scss";
 import { Back } from "@/components/Back";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { UserProps } from "@/data-types/props";
+import { useParams } from "next/navigation";
 import {
   Alert,
   Autocomplete,
@@ -19,12 +20,24 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import { createUser } from "@/common/fetcher";
-import { useState } from "react";
+import {
+  createUser,
+  deleteUser,
+  getUserById,
+  updateUser,
+} from "@/common/fetcher";
+import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { genders, interests, musicGenres } from "@/common/userFormData";
+import Link from "next/link";
 
-export const UserForm = () => {
+type UserFormProps = {
+  page: "create" | "update";
+};
+
+export const UserForm: FC<UserFormProps> = ({ page }) => {
   const router = useRouter();
+  const params = useParams();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
@@ -39,26 +52,27 @@ export const UserForm = () => {
     setSnackbarOpen(false);
   };
 
-  const genders = [
-    { value: "male", label: "Мужской" },
-    { value: "female", label: "Женский" },
-  ];
-
-  const interests = [
-    { value: "movies", label: "Фильмы" },
-    { value: "music", label: "Музыка" },
-    { value: "cars", label: "Машины" },
-    { value: "games", label: "Игры" },
-  ];
-
-  const musicGenres = [
-    { value: "rock", label: "Рок" },
-    { value: "pop", label: "Поп" },
-    { value: "jazz", label: "Джаз" },
-    { value: "classical", label: "Классическая" },
-    { value: "hiphop", label: "Хип-хоп" },
-    { value: "electronic", label: "Электронная" },
-  ];
+  // Это костыль, но он чинит проблему, что анимация TextField со строками ломается при открытии страницы пользвателя
+  const defaultValues =
+    page == "create"
+      ? {
+          lastName: "",
+          firstName: "",
+          middleName: "",
+          age: 0,
+          gender: "",
+          interests: [],
+          musicGenre: "",
+        }
+      : {
+          lastName: " ",
+          firstName: " ",
+          middleName: " ",
+          age: 0,
+          gender: " ",
+          interests: [],
+          musicGenre: " ",
+        };
 
   const {
     register,
@@ -68,44 +82,68 @@ export const UserForm = () => {
     reset,
     formState: { errors },
   } = useForm<UserProps>({
-    defaultValues: {
-      lastName: "",
-      firstName: "",
-      middleName: "",
-      age: 0,
-      gender: "",
-      interests: [],
-      musicGenre: "",
-    },
+    defaultValues: defaultValues,
   });
 
+  useEffect(() => {
+    if (page === "update" && params?.id) {
+      getUserById(params.id.toString()).then((userData) => {
+        if (userData) {
+          reset(userData);
+        }
+      });
+    }
+  }, [page, params.id, reset]);
+
   const onSubmit: SubmitHandler<UserProps> = async (data) => {
-    try {
-      const res = await createUser(data);
-      const json = await res.json();
+    if (page == "create") {
+      try {
+        const res = await createUser(data);
+        const json = await res.json();
 
-      if (!res.ok) {
-        setSnackbarSeverity("error");
-      } else {
-        setSnackbarSeverity("success");
+        if (!res.ok) {
+          setSnackbarSeverity("error");
+        } else {
+          setSnackbarSeverity("success");
 
-        // setTimeout сделан для того, чтобы показать, что Snackbar работает при успешном создании
-        setTimeout(() => {
           router.push(`/users/${json.id}`);
-        }, 1000);
 
-        reset();
+          reset();
+        }
+      } catch {
+        setSnackbarSeverity("error");
+      } finally {
+        setSnackbarOpen(true);
       }
-    } catch {
-      setSnackbarSeverity("error");
-    } finally {
-      setSnackbarOpen(true);
+    } else {
+      try {
+        if (params?.id) {
+          const res = await updateUser(params.id.toString(), data);
+
+          if (!res.ok) {
+            setSnackbarSeverity("error");
+          } else {
+            setSnackbarSeverity("success");
+
+            const updatedUser = await getUserById(params.id.toString());
+            if (updatedUser) {
+              reset(updatedUser);
+            }
+          }
+        }
+      } catch {
+        setSnackbarSeverity("error");
+      } finally {
+        setSnackbarOpen(true);
+      }
     }
   };
 
   return (
     <div className={styles.root}>
       <Back text="Все пользователи" path="/users" />
+
+      {page == "update" && <div>Профиль пользователя</div>}
 
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <TextField
@@ -135,12 +173,17 @@ export const UserForm = () => {
 
         <TextField
           label="* Возраст"
-          {...register("age", { required: "Это поле обязательно" })}
+          {...register("age", {
+            required: "Это поле обязательно",
+            pattern: {
+              value: /^[0-9]+$/,
+              message: "Можно вводить только числа",
+            },
+          })}
           error={!!errors.age}
           helperText={errors.age?.message}
           fullWidth
           margin="normal"
-          type="number"
         />
 
         {/* TODO: Переделать нормально */}
@@ -196,7 +239,7 @@ export const UserForm = () => {
                     render={({ field }) => (
                       <Checkbox
                         {...field}
-                        checked={field.value.includes(interest.value)}
+                        checked={field.value?.includes(interest.value)}
                         onChange={(e) => {
                           const selected = e.target.checked
                             ? [...field.value, interest.value]
@@ -215,19 +258,31 @@ export const UserForm = () => {
           )}
         </FormControl>
 
-        {/* TODO: в форму уходит label, а не value */}
-        {watch("interests").includes("music") && (
-          <Autocomplete
-            options={musicGenres}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                {...register("musicGenre", {
-                  required: "Это поле обязательно",
-                })}
-                label="* Жанр музыки"
-                error={!!errors.musicGenre}
-                helperText={errors.musicGenre?.message}
+        {/* TODO: в данные формы уходит label, а не value */}
+        {watch("interests")?.includes("music") && (
+          <Controller
+            name="musicGenre"
+            control={control}
+            rules={{ required: "Это поле обязательно" }}
+            render={({ field: { value, onChange, ref } }) => (
+              <Autocomplete
+                options={musicGenres}
+                getOptionLabel={(option) => option.label}
+                value={
+                  musicGenres.find((option) => option.value === value) || null
+                }
+                onChange={(_, newOption) => {
+                  onChange(newOption ? newOption.value : "");
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="* Жанр музыки"
+                    inputRef={ref}
+                    error={!!errors.musicGenre}
+                    helperText={errors.musicGenre?.message}
+                  />
+                )}
               />
             )}
           />
@@ -242,9 +297,22 @@ export const UserForm = () => {
             Сбросить
           </Button>
 
-          {/* <Button type="submit" variant="contained" color="primary" fullWidth>
-            УДОЛИТЬ!
-          </Button> */}
+          {page == "update" && (
+            <Link href={"/users"}>
+              <Button
+                onClick={() => {
+                  if (params?.id) {
+                    deleteUser(params.id.toString());
+                  }
+                }}
+                variant="contained"
+                color="error"
+                fullWidth
+              >
+                Удалить
+              </Button>
+            </Link>
+          )}
         </div>
       </form>
 
