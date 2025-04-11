@@ -20,7 +20,12 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import { createUser, deleteUser, getUserById } from "@/common/fetcher";
+import {
+  createUser,
+  deleteUser,
+  getUserById,
+  updateUser,
+} from "@/common/fetcher";
 import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { genders, interests, musicGenres } from "@/common/userFormData";
@@ -91,25 +96,46 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
   }, [page, params.id, reset]);
 
   const onSubmit: SubmitHandler<UserProps> = async (data) => {
-    try {
-      const res = await createUser(data);
-      const json = await res.json();
+    if (page == "create") {
+      try {
+        const res = await createUser(data);
+        const json = await res.json();
 
-      if (!res.ok) {
-        setSnackbarSeverity("error");
-      } else {
-        setSnackbarSeverity("success");
+        if (!res.ok) {
+          setSnackbarSeverity("error");
+        } else {
+          setSnackbarSeverity("success");
 
-        if (page == "create") {
           router.push(`/users/${json.id}`);
-        }
 
-        reset();
+          reset();
+        }
+      } catch {
+        setSnackbarSeverity("error");
+      } finally {
+        setSnackbarOpen(true);
       }
-    } catch {
-      setSnackbarSeverity("error");
-    } finally {
-      setSnackbarOpen(true);
+    } else {
+      try {
+        if (params?.id) {
+          const res = await updateUser(params.id.toString(), data);
+
+          if (!res.ok) {
+            setSnackbarSeverity("error");
+          } else {
+            setSnackbarSeverity("success");
+
+            const updatedUser = await getUserById(params.id.toString());
+            if (updatedUser) {
+              reset(updatedUser);
+            }
+          }
+        }
+      } catch {
+        setSnackbarSeverity("error");
+      } finally {
+        setSnackbarOpen(true);
+      }
     }
   };
 
