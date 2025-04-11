@@ -1,5 +1,7 @@
-import { UserInfo } from "./_components";
+import { UserForm } from "@/components/UserForm";
+// import { UserInfo } from "./_components";
 
 export default function UserInfoPage() {
-  return <UserInfo />;
+  // return <UserInfo />;
+  return <UserForm page="update" />;
 }

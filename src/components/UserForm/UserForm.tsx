@@ -19,17 +19,24 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import { createUser } from "@/common/fetcher";
-import { useState } from "react";
+import { createUser, deleteUser, getUserById } from "@/common/fetcher";
+import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { genders, interests, musicGenres } from "@/common/userFormData";
+import Link from "next/link";
 
-export const UserForm = () => {
+type UserFormProps = {
+  page: "create" | "update";
+};
+
+export const UserForm: FC<UserFormProps> = ({ page }) => {
   const router = useRouter();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
     "success"
   );
+  // const [user, setUser] = useState<UserProps>();
 
   const handleCloseSnackbar = (
     event?: React.SyntheticEvent | Event,
@@ -39,26 +46,26 @@ export const UserForm = () => {
     setSnackbarOpen(false);
   };
 
-  const genders = [
-    { value: "male", label: "Мужской" },
-    { value: "female", label: "Женский" },
-  ];
+  // useEffect(() => {
+  //   if (page == "update") {
+  //     const { pathname } = window.location;
+  //     const id = pathname.split("/")[2];
+  //     getUserById(id).then(setUser);
+  //   }
+  // }, []);
 
-  const interests = [
-    { value: "movies", label: "Фильмы" },
-    { value: "music", label: "Музыка" },
-    { value: "cars", label: "Машины" },
-    { value: "games", label: "Игры" },
-  ];
-
-  const musicGenres = [
-    { value: "rock", label: "Рок" },
-    { value: "pop", label: "Поп" },
-    { value: "jazz", label: "Джаз" },
-    { value: "classical", label: "Классическая" },
-    { value: "hiphop", label: "Хип-хоп" },
-    { value: "electronic", label: "Электронная" },
-  ];
+  // const defaultValues =
+  //   page == "create"
+  //     ? {
+  //         lastName: "",
+  //         firstName: "",
+  //         middleName: "",
+  //         age: 0,
+  //         gender: "",
+  //         interests: [],
+  //         musicGenre: "",
+  //       }
+  //     : user;
 
   const {
     register,
@@ -106,6 +113,8 @@ export const UserForm = () => {
   return (
     <div className={styles.root}>
       <Back text="Все пользователи" path="/users" />
+
+      {page == "update" && <div>Профиль пользователя</div>}
 
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <TextField
@@ -196,7 +205,7 @@ export const UserForm = () => {
                     render={({ field }) => (
                       <Checkbox
                         {...field}
-                        checked={field.value.includes(interest.value)}
+                        checked={field.value?.includes(interest.value)}
                         onChange={(e) => {
                           const selected = e.target.checked
                             ? [...field.value, interest.value]
@@ -216,7 +225,7 @@ export const UserForm = () => {
         </FormControl>
 
         {/* TODO: в форму уходит label, а не value */}
-        {watch("interests").includes("music") && (
+        {watch("interests")?.includes("music") && (
           <Autocomplete
             options={musicGenres}
             renderInput={(params) => (
@@ -242,9 +251,23 @@ export const UserForm = () => {
             Сбросить
           </Button>
 
-          {/* <Button type="submit" variant="contained" color="primary" fullWidth>
-            УДОЛИТЬ!
-          </Button> */}
+          {page == "update" && (
+            <Link href={"/users"}>
+              <Button
+                onClick={() => {
+                  // TODO: Убрать костыль
+                  const { pathname } = window.location;
+                  const id = pathname.split("/")[2];
+                  deleteUser(id);
+                }}
+                variant="contained"
+                color="error"
+                fullWidth
+              >
+                Удалить
+              </Button>
+            </Link>
+          )}
         </div>
       </form>
 
