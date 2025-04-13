@@ -9,12 +9,6 @@ import {
   Alert,
   Autocomplete,
   Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
-  FormLabel,
   Snackbar,
   TextField,
 } from "@mui/material";
@@ -29,8 +23,9 @@ import { useRouter } from "next/navigation";
 import { genders, interests, musicGenres } from "@/common/userFormData";
 import Link from "next/link";
 import { Input } from "@/ui/Input";
-import { Numbers, Person, Wc } from "@mui/icons-material";
+import { AutoAwesome, Numbers, Person, Wc } from "@mui/icons-material";
 import { GenderSelect } from "@/ui/GenderSelect";
+import { InterestCheckboxGroup } from "@/ui/InterestCheckboxGroup";
 
 type UserFormProps = {
   page: "create" | "update";
@@ -193,51 +188,19 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           control={control}
           error={!!errors.gender}
           options={genders}
-          errors={errors!.gender?.message}
+          errors={errors.gender?.message}
           icon={<Wc color="action" fontSize="large" />}
         />
 
-        {/* TODO: Переделать нормально */}
-        <FormControl
-          component="fieldset"
+        <InterestCheckboxGroup
+          name="interests"
+          // label="* Интересы"
+          control={control}
           error={!!errors.interests}
-          margin="normal"
-        >
-          <FormLabel>* Интересы</FormLabel>
-          <FormGroup row>
-            {interests.map((interest) => (
-              <FormControlLabel
-                key={interest.value}
-                label={interest.label}
-                control={
-                  <Controller
-                    name="interests"
-                    control={control}
-                    rules={{
-                      validate: (selected) =>
-                        selected.length >= 2 || "Выберите минимум два интереса",
-                    }}
-                    render={({ field }) => (
-                      <Checkbox
-                        {...field}
-                        checked={field.value?.includes(interest.value)}
-                        onChange={(e) => {
-                          const selected = e.target.checked
-                            ? [...field.value, interest.value]
-                            : field.value.filter((v) => v !== interest.value);
-                          field.onChange(selected);
-                        }}
-                      />
-                    )}
-                  />
-                }
-              />
-            ))}
-          </FormGroup>
-          {errors.interests && (
-            <FormHelperText>{errors.interests.message}</FormHelperText>
-          )}
-        </FormControl>
+          options={interests}
+          errors={errors.interests?.message}
+          icon={<AutoAwesome color="action" fontSize="large" />}
+        />
 
         {watch("interests")?.includes("music") && (
           <Controller
@@ -315,3 +278,49 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
     </div>
   );
 };
+
+{
+  /* Оставил на всякий случай*/
+}
+{
+  /* <FormControl
+          component="fieldset"
+          error={!!errors.interests}
+          margin="normal"
+        >
+          <FormLabel>* Интересы</FormLabel>
+          <FormGroup row>
+            {interests.map((interest) => (
+              <FormControlLabel
+                key={interest.value}
+                label={interest.label}
+                control={
+                  <Controller
+                    name="interests"
+                    control={control}
+                    rules={{
+                      validate: (selected) =>
+                        selected.length >= 2 || "Выберите минимум два интереса",
+                    }}
+                    render={({ field }) => (
+                      <Checkbox
+                        {...field}
+                        checked={field.value?.includes(interest.value)}
+                        onChange={(e) => {
+                          const selected = e.target.checked
+                            ? [...field.value, interest.value]
+                            : field.value.filter((v) => v !== interest.value);
+                          field.onChange(selected);
+                        }}
+                      />
+                    )}
+                  />
+                }
+              />
+            ))}
+          </FormGroup>
+          {errors.interests && (
+            <FormHelperText>{errors.interests.message}</FormHelperText>
+          )}
+        </FormControl> */
+}
