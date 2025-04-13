@@ -30,6 +30,8 @@ import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { genders, interests, musicGenres } from "@/common/userFormData";
 import Link from "next/link";
+import { Input } from "@/ui/Input";
+import { Numbers, Person } from "@mui/icons-material";
 
 type UserFormProps = {
   page: "create" | "update";
@@ -146,34 +148,35 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
       {page == "update" && <div>Профиль пользователя</div>}
 
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <TextField
+        <Input
           label="* Фамилия"
-          {...register("lastName", { required: "Это поле обязательно" })}
+          inputProps={register("lastName", {
+            required: "Это поле обязательно",
+          })}
           error={!!errors.lastName}
           helperText={errors.lastName?.message}
-          fullWidth
-          margin="normal"
+          icon={<Person color="action" fontSize="large" />}
         />
 
-        <TextField
+        <Input
           label="* Имя"
-          {...register("firstName", { required: "Это поле обязательно" })}
+          inputProps={register("firstName", {
+            required: "Это поле обязательно",
+          })}
           error={!!errors.firstName}
           helperText={errors.firstName?.message}
-          fullWidth
-          margin="normal"
+          icon={<Person color="action" fontSize="large" />}
         />
 
-        <TextField
+        <Input
           label="Отчество"
-          {...register("middleName")}
-          fullWidth
-          margin="normal"
+          inputProps={register("middleName")}
+          icon={<Person color="action" fontSize="large" />}
         />
 
-        <TextField
+        <Input
           label="* Возраст"
-          {...register("age", {
+          inputProps={register("age", {
             required: "Это поле обязательно",
             pattern: {
               value: /^[0-9]+$/,
@@ -182,8 +185,7 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           })}
           error={!!errors.age}
           helperText={errors.age?.message}
-          fullWidth
-          margin="normal"
+          icon={<Numbers color="action" fontSize="large" />}
         />
 
         {/* TODO: Переделать нормально */}
@@ -258,7 +260,6 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           )}
         </FormControl>
 
-        {/* TODO: в данные формы уходит label, а не value */}
         {watch("interests")?.includes("music") && (
           <Controller
             name="musicGenre"
