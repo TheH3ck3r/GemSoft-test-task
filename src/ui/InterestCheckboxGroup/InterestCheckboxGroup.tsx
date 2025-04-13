@@ -18,20 +18,11 @@ type Option = {
 };
 
 type InterestCheckboxGroupProps = {
-  name:
-    | "lastName"
-    | "firstName"
-    | "middleName"
-    | "age"
-    | "gender"
-    | "interests"
-    | "musicGenre"
-    | `interests.${number}`;
+  name: "interests"; // строгое значение
   control: Control<UserProps>;
-  error: boolean;
+  error?: boolean;
   options: Option[];
-  // label: string;
-  icon: ReactNode;
+  icon?: ReactNode;
   errors: string | undefined;
 };
 
@@ -40,52 +31,61 @@ export const InterestCheckboxGroup: FC<InterestCheckboxGroupProps> = ({
   control,
   error,
   options,
-  errors,
   icon,
+  errors,
 }) => (
-  <>
-    <FormControl
-      component="fieldset"
-      error={!!error}
-      margin="normal"
-      className={styles.interest_wrapper}
-    >
-      {icon && <div className={styles.icon}>{icon}</div>}
-      <FormGroup row>
-        {options.map((option) => (
-          <FormControlLabel
-            key={option.value}
-            label={option.label}
-            control={
-              <Controller
-                name={name}
-                control={control}
-                rules={{
-                  validate: (selected) =>
-                    selected.length >= 2 || "Выберите минимум два интереса",
-                }}
-                render={({ field }) => (
-                  <div>
+  <FormControl
+    component="fieldset"
+    error={!!error}
+    margin="normal"
+    className={styles.interest_wrapper}
+  >
+    {icon && <div className={styles.icon}>{icon}</div>}
+    <FormGroup row>
+      <Controller
+        name={name}
+        control={control}
+        rules={{
+          validate: (selected: string[]) =>
+            Array.isArray(selected) && selected.length >= 2
+              ? true
+              : "Выберите минимум два интереса",
+        }}
+        render={({ field }) => (
+          <>
+            {options.map((option) => {
+              const checked = Array.isArray(field.value)
+                ? field.value.includes(option.value)
+                : false;
+
+              const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                const newValue = e.target.checked
+                  ? [...(field.value || []), option.value]
+                  : (field.value || []).filter(
+                      (v: string) => v !== option.value
+                    );
+
+                field.onChange(newValue);
+              };
+
+              return (
+                <FormControlLabel
+                  key={option.value}
+                  control={
                     <Checkbox
-                      {...field}
-                      checked={field.value?.includes(option.value)}
-                      onChange={(e) => {
-                        const selected = e.target.checked
-                          ? [...field.value, option.value]
-                          : field.value.filter(
-                              (v: string) => v !== option.value
-                            );
-                        field.onChange(selected);
-                      }}
+                      checked={checked}
+                      onChange={handleChange}
+                      name={option.value}
                     />
-                  </div>
-                )}
-              />
-            }
-          />
-        ))}
-      </FormGroup>
-      <FormHelperText>{errors}</FormHelperText>
-    </FormControl>
-  </>
+                  }
+                  label={option.label}
+                />
+              );
+            })}
+          </>
+        )}
+      />
+    </FormGroup>
+    <FormHelperText>{errors}</FormHelperText>
+  </FormControl>
 );
