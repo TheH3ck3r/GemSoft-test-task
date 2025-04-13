@@ -15,8 +15,6 @@ import {
   FormGroup,
   FormHelperText,
   FormLabel,
-  Radio,
-  RadioGroup,
   Snackbar,
   TextField,
 } from "@mui/material";
@@ -31,7 +29,8 @@ import { useRouter } from "next/navigation";
 import { genders, interests, musicGenres } from "@/common/userFormData";
 import Link from "next/link";
 import { Input } from "@/ui/Input";
-import { Numbers, Person } from "@mui/icons-material";
+import { Numbers, Person, Wc } from "@mui/icons-material";
+import { GenderSelect } from "@/ui/GenderSelect";
 
 type UserFormProps = {
   page: "create" | "update";
@@ -188,35 +187,15 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           icon={<Numbers color="action" fontSize="large" />}
         />
 
-        {/* TODO: Переделать нормально */}
-        <FormControl
-          component="fieldset"
-          className={styles.full_width}
-          margin="normal"
+        <GenderSelect
+          name="gender"
+          label="* Пол"
+          control={control}
           error={!!errors.gender}
-        >
-          <FormLabel>* Пол</FormLabel>
-          <Controller
-            name="gender"
-            control={control}
-            rules={{ required: "Выберите пол" }}
-            render={({ field }) => (
-              <RadioGroup row {...field}>
-                <FormControlLabel
-                  value={genders[0].value}
-                  control={<Radio />}
-                  label={genders[0].label}
-                />
-                <FormControlLabel
-                  value={genders[1].value}
-                  control={<Radio />}
-                  label={genders[1].label}
-                />
-              </RadioGroup>
-            )}
-          />
-          <FormHelperText>{errors.gender?.message}</FormHelperText>
-        </FormControl>
+          options={genders}
+          errors={errors!.gender?.message}
+          icon={<Wc color="action" fontSize="large" />}
+        />
 
         {/* TODO: Переделать нормально */}
         <FormControl

@@ -1,0 +1,33 @@
+// .genderWrapper {
+//   width: 100%;
+
+//   .MuiFormLabel-root {
+//     font-size: 18px;
+//     margin-bottom: 8px;
+//   }
+
+  .MuiRadio-root {
+    color: #1976d2;
+  }
+
+//   .MuiFormControlLabel-label {
+//     font-size: 16px;
+//   }
+
+//   .MuiFormHelperText-root {
+//     font-size: 14px;
+//     color: red;
+//   }
+// }
+
+.gender_wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+}
