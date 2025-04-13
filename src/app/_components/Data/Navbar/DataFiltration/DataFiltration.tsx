@@ -1,5 +1,5 @@
 import vacanciesPageSettingsStore from "@/common/stores/vacanciesPageSettingsStore";
-import { MultipleSelect } from "@/ui/MultipleSelect";
+import { MultipleSelect } from "@/ui/MultipleSelect/MultipleSelect";
 import { Input } from "@mui/material";
 import styles from "./DataFiltration.module.scss";
 import { observer } from "mobx-react-lite";
