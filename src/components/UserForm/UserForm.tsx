@@ -97,14 +97,12 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
         const res = await createUser(data);
         const json = await res.json();
 
-        if (!res.ok) {
-          setSnackbarSeverity("error");
-        } else {
+        if (res.ok) {
           setSnackbarSeverity("success");
-
           router.push(`/users/${json.id}`);
-
           reset();
+        } else {
+          setSnackbarSeverity("error");
         }
       } catch {
         setSnackbarSeverity("error");
@@ -116,15 +114,14 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
         if (params?.id) {
           const res = await updateUser(params.id.toString(), data);
 
-          if (!res.ok) {
-            setSnackbarSeverity("error");
-          } else {
+          if (res.ok) {
             setSnackbarSeverity("success");
-
             const updatedUser = await getUserById(params.id.toString());
             if (updatedUser) {
               reset(updatedUser);
             }
+          } else {
+            setSnackbarSeverity("error");
           }
         }
       } catch {
