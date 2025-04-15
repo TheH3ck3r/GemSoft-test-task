@@ -36,7 +36,7 @@ export type UserProps = {
   lastName: string;
   firstName: string;
   middleName: string;
-  age: number;
+  age: string;
   gender: string;
   interests: string[];
   musicGenre: string;

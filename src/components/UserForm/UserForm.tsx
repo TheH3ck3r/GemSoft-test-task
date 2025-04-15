@@ -35,17 +35,18 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
   const router = useRouter();
   const params = useParams();
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
-    "success"
-  );
+  const [snackbarState, setSnackbarState] = useState<
+    "success" | "error" | undefined
+  >(undefined);
+
+  console.log(snackbarState);
 
   const handleCloseSnackbar = (
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
     if (reason === "clickaway") return;
-    setSnackbarOpen(false);
+    setSnackbarState(undefined);
   };
 
   // Это костыль, но он чинит проблему, что анимация TextField со строками ломается при открытии страницы пользвателя
@@ -55,7 +56,7 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           lastName: "",
           firstName: "",
           middleName: "",
-          age: 0,
+          age: "",
           gender: "",
           interests: [],
           musicGenre: "",
@@ -64,7 +65,7 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           lastName: " ",
           firstName: " ",
           middleName: " ",
-          age: 0,
+          age: " ",
           gender: " ",
           interests: [],
           musicGenre: " ",
@@ -98,16 +99,14 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
         const json = await res.json();
 
         if (res.ok) {
-          setSnackbarSeverity("success");
+          setSnackbarState("success");
           router.push(`/users/${json.id}`);
           reset();
         } else {
-          setSnackbarSeverity("error");
+          setSnackbarState("error");
         }
       } catch {
-        setSnackbarSeverity("error");
-      } finally {
-        setSnackbarOpen(true);
+        setSnackbarState("error");
       }
     } else {
       try {
@@ -115,19 +114,17 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           const res = await updateUser(params.id.toString(), data);
 
           if (res.ok) {
-            setSnackbarSeverity("success");
+            setSnackbarState("success");
             const updatedUser = await getUserById(params.id.toString());
             if (updatedUser) {
               reset(updatedUser);
             }
           } else {
-            setSnackbarSeverity("error");
+            setSnackbarState("error");
           }
         }
       } catch {
-        setSnackbarSeverity("error");
-      } finally {
-        setSnackbarOpen(true);
+        setSnackbarState("error");
       }
     }
   };
@@ -252,19 +249,17 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
       </form>
 
       <Snackbar
-        open={snackbarOpen}
+        open={!!snackbarState}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity={snackbarSeverity}
+          severity={snackbarState}
           sx={{ width: "100%" }}
         >
-          {snackbarSeverity == "success"
-            ? "Данные сохранены"
-            : "Произошла ошибка"}
+          {snackbarState == "success" ? "Данные сохранены" : "Произошла ошибка"}
         </Alert>
       </Snackbar>
     </div>
