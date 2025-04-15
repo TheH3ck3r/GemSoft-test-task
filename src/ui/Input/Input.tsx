@@ -1,7 +1,7 @@
 import { UserProps } from "@/types/props";
 import { InputAdornment, TextField } from "@mui/material";
 import { FC, ReactNode } from "react";
-import { Control, ValidationRule } from "react-hook-form";
+import { Control, Controller, ValidationRule } from "react-hook-form";
 
 type InputProps = {
   label: string;
@@ -20,31 +20,35 @@ export const Input: FC<InputProps> = ({
   requiredText,
   pattern,
 }) => (
-  <TextField
-    label={label}
-    {...control.register(name, {
-      required: requiredText,
-      pattern: pattern,
-    })}
-    color="secondary"
-    error={!!control._formState.errors[name]}
-    helperText={control._formState.errors[name]?.message}
-    fullWidth
-    margin="normal"
-    slotProps={{
-      input: {
-        startAdornment: (
-          <InputAdornment position="start">{icon}</InputAdornment>
-        ),
-      },
-    }}
-    sx={{
-      "& .MuiInputBase-input": {
-        fontSize: "20px",
-      },
-      "& .MuiInputLabel-root": {
-        fontSize: "20px",
-      },
-    }}
+  <Controller
+    name={name}
+    control={control}
+    rules={{ required: requiredText, pattern: pattern }}
+    render={({ field }) => (
+      <TextField
+        label={label}
+        {...field}
+        color="secondary"
+        error={!!control._formState.errors[name]}
+        helperText={control._formState.errors[name]?.message}
+        fullWidth
+        margin="normal"
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">{icon}</InputAdornment>
+            ),
+          },
+        }}
+        // sx={{
+        //   "& .MuiInputBase-input": {
+        //     fontSize: "20px",
+        //   },
+        //   "& .MuiInputLabel-root": {
+        //     fontSize: "20px",
+        //   },
+        // }}
+      />
+    )}
   />
 );
