@@ -31,13 +31,23 @@ type UserFormProps = {
   page: "create" | "update";
 };
 
+type SnackbarProps = {
+  open: boolean;
+  severity: "success" | "error" | undefined;
+};
+
 export const UserForm: FC<UserFormProps> = ({ page }) => {
   const router = useRouter();
   const params = useParams();
 
-  const [snackbarState, setSnackbarState] = useState<
-    "success" | "error" | undefined
-  >(undefined);
+  // const [snackbarState, setSnackbarState] = useState<
+  //   "success" | "error" | undefined
+  // >(undefined);
+
+  const [snackbarState, setSnackbarState] = useState<SnackbarProps>({
+    open: false,
+    severity: undefined,
+  });
 
   console.log(snackbarState);
 
@@ -46,7 +56,7 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
     reason?: string
   ) => {
     if (reason === "clickaway") return;
-    setSnackbarState(undefined);
+    setSnackbarState({ open: false, severity: snackbarState.severity });
   };
 
   // Это костыль, но он чинит проблему, что анимация TextField со строками ломается при открытии страницы пользвателя
@@ -72,7 +82,6 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
         };
 
   const {
-    register,
     handleSubmit,
     control,
     watch,
@@ -92,6 +101,7 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
     }
   }, [page, params.id, reset]);
 
+  // Переделать
   const onSubmit: SubmitHandler<UserProps> = async (data) => {
     if (page == "create") {
       try {
@@ -99,14 +109,16 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
         const json = await res.json();
 
         if (res.ok) {
-          setSnackbarState("success");
+          setSnackbarState({ open: snackbarState.open, severity: "success" });
           router.push(`/users/${json.id}`);
           reset();
         } else {
-          setSnackbarState("error");
+          setSnackbarState({ open: snackbarState.open, severity: "error" });
         }
       } catch {
-        setSnackbarState("error");
+        setSnackbarState({ open: snackbarState.open, severity: "error" });
+      } finally {
+        setSnackbarState({ open: true, severity: snackbarState.severity });
       }
     } else {
       try {
@@ -114,17 +126,19 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           const res = await updateUser(params.id.toString(), data);
 
           if (res.ok) {
-            setSnackbarState("success");
+            setSnackbarState({ open: snackbarState.open, severity: "success" });
             const updatedUser = await getUserById(params.id.toString());
             if (updatedUser) {
               reset(updatedUser);
             }
           } else {
-            setSnackbarState("error");
+            setSnackbarState({ open: snackbarState.open, severity: "error" });
           }
         }
       } catch {
-        setSnackbarState("error");
+        setSnackbarState({ open: snackbarState.open, severity: "error" });
+      } finally {
+        setSnackbarState({ open: true, severity: snackbarState.severity });
       }
     }
   };
@@ -138,39 +152,34 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="* Фамилия"
-          inputProps={register("lastName", {
-            required: "Это поле обязательно",
-          })}
+          name="lastName"
+          control={control}
           icon={<Person color="action" />}
-          errors={errors.lastName}
+          requiredText="Это поле обязательно"
         />
 
         <Input
           label="* Имя"
-          inputProps={register("firstName", {
-            required: "Это поле обязательно",
-          })}
+          name="firstName"
+          control={control}
           icon={<Person color="action" />}
-          errors={errors.firstName}
+          requiredText="Это поле обязательно"
         />
 
         <Input
           label="Отчество"
-          inputProps={register("middleName")}
+          name="middleName"
+          control={control}
           icon={<Person color="action" />}
         />
 
         <Input
           label="* Возраст"
-          inputProps={register("age", {
-            required: "Это поле обязательно",
-            pattern: {
-              value: /^[0-9]+$/,
-              message: "Можно вводить только числа",
-            },
-          })}
+          name="age"
+          control={control}
           icon={<Numbers color="action" />}
-          errors={errors.age}
+          requiredText="Это поле обязательно"
+          pattern={{ value: /^[0-9]+$/, message: "Можно вводить только числа" }}
         />
 
         <GenderSelect
@@ -249,17 +258,19 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
       </form>
 
       <Snackbar
-        open={!!snackbarState}
+        open={snackbarState.open}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity={snackbarState}
+          severity={snackbarState.severity}
           sx={{ width: "100%" }}
         >
-          {snackbarState == "success" ? "Данные сохранены" : "Произошла ошибка"}
+          {snackbarState.severity == "success"
+            ? "Данные сохранены"
+            : "Произошла ошибка"}
         </Alert>
       </Snackbar>
     </div>
