@@ -6,10 +6,10 @@ import {
   FormControlLabel,
   FormGroup,
   FormHelperText,
+  FormLabel,
 } from "@mui/material";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import { Controller, Control } from "react-hook-form";
-import styles from "./InterestCheckboxGroup.module.scss";
 import { UserProps } from "@/types/props";
 
 type Option = {
@@ -22,8 +22,8 @@ type InterestCheckboxGroupProps = {
   control: Control<UserProps>;
   error?: boolean;
   options: Option[];
-  icon?: ReactNode;
   errors: string | undefined;
+  label: string;
 };
 
 export const InterestCheckboxGroup: FC<InterestCheckboxGroupProps> = ({
@@ -31,16 +31,11 @@ export const InterestCheckboxGroup: FC<InterestCheckboxGroupProps> = ({
   control,
   error,
   options,
-  icon,
+  label,
   errors,
 }) => (
-  <FormControl
-    component="fieldset"
-    error={!!error}
-    margin="normal"
-    className={styles.interest_wrapper}
-  >
-    {icon && <div className={styles.icon}>{icon}</div>}
+  <FormControl component="fieldset" error={!!error} margin="normal">
+    <FormLabel>{label}</FormLabel>
     <FormGroup row>
       <Controller
         name={name}

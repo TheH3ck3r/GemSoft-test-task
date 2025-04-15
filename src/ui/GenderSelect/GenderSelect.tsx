@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import {
   FormControl,
   FormLabel,
@@ -10,7 +10,6 @@ import {
   FormHelperText,
 } from "@mui/material";
 import { Controller, Control } from "react-hook-form";
-import styles from "./GenderSelect.module.scss";
 import { UserProps } from "@/types/props";
 
 type Option = {
@@ -32,7 +31,6 @@ type GenderSelectProps = {
   error: boolean;
   options: Option[];
   label: string;
-  icon: ReactNode;
   errors: string | undefined;
 };
 
@@ -42,7 +40,6 @@ export const GenderSelect: FC<GenderSelectProps> = ({
   error,
   options,
   label,
-  icon,
   errors,
 }) => (
   <FormControl
@@ -57,27 +54,24 @@ export const GenderSelect: FC<GenderSelectProps> = ({
       control={control}
       rules={{ required: "Выберите пол" }}
       render={({ field }) => (
-        <div className={styles.gender_wrapper}>
-          {icon && <div className={styles.icon}>{icon}</div>}
-          <RadioGroup
-            row
-            {...field}
-            sx={{
-              "& .MuiRadio-root": {
-                color: "#FD5200",
-              },
-            }}
-          >
-            {options.map((opt) => (
-              <FormControlLabel
-                key={opt.value}
-                value={opt.value}
-                control={<Radio />}
-                label={opt.label}
-              />
-            ))}
-          </RadioGroup>
-        </div>
+        <RadioGroup
+          row
+          {...field}
+          sx={{
+            "& .MuiRadio-root": {
+              color: "#FD5200",
+            },
+          }}
+        >
+          {options.map((opt) => (
+            <FormControlLabel
+              key={opt.value}
+              value={opt.value}
+              control={<Radio />}
+              label={opt.label}
+            />
+          ))}
+        </RadioGroup>
       )}
     />
     <FormHelperText>{errors}</FormHelperText>

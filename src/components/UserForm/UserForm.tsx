@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 import { genders, interests, musicGenres } from "@/common/userFormData";
 import Link from "next/link";
 import { Input } from "@/ui/Input";
-import { AutoAwesome, Numbers, Person, Wc } from "@mui/icons-material";
+import { Numbers, Person } from "@mui/icons-material";
 import { GenderSelect } from "@/ui/GenderSelect";
 import { InterestCheckboxGroup } from "@/ui/InterestCheckboxGroup";
 
@@ -189,17 +189,15 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           error={!!errors.gender}
           options={genders}
           errors={errors.gender?.message}
-          icon={<Wc color="action" fontSize="large" />}
         />
 
         <InterestCheckboxGroup
           name="interests"
-          // label="* Интересы"
+          label="* Интересы"
           control={control}
           error={!!errors.interests}
           options={interests}
           errors={errors.interests?.message}
-          icon={<AutoAwesome color="action" fontSize="large" />}
         />
 
         {watch("interests")?.includes("music") && (
