@@ -1,28 +1,21 @@
 import { InputAdornment, TextField } from "@mui/material";
 import { FC, ReactNode } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 type InputProps = {
   label: string;
-  error?: boolean;
-  helperText?: ReactNode;
+  inputProps: UseFormRegisterReturn;
   icon?: ReactNode;
-  inputProps?: UseFormRegisterReturn;
+  errors?: FieldError | undefined;
 };
 
-export const Input: FC<InputProps> = ({
-  label,
-  error,
-  helperText,
-  icon,
-  inputProps,
-}) => (
+export const Input: FC<InputProps> = ({ label, icon, inputProps, errors }) => (
   <TextField
     {...inputProps}
     label={label}
     color="secondary"
-    error={error}
-    helperText={helperText}
+    error={!!errors}
+    helperText={errors?.message}
     fullWidth
     margin="normal"
     slotProps={{

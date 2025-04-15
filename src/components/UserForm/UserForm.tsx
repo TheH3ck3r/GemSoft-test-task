@@ -147,9 +147,8 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           inputProps={register("lastName", {
             required: "Это поле обязательно",
           })}
-          error={!!errors.lastName}
-          helperText={errors.lastName?.message}
           icon={<Person color="action" />}
+          errors={errors.lastName}
         />
 
         <Input
@@ -157,9 +156,8 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           inputProps={register("firstName", {
             required: "Это поле обязательно",
           })}
-          error={!!errors.firstName}
-          helperText={errors.firstName?.message}
           icon={<Person color="action" />}
+          errors={errors.firstName}
         />
 
         <Input
@@ -177,9 +175,8 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
               message: "Можно вводить только числа",
             },
           })}
-          error={!!errors.age}
-          helperText={errors.age?.message}
           icon={<Numbers color="action" />}
+          errors={errors.age}
         />
 
         <GenderSelect
