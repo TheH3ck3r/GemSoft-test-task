@@ -149,7 +149,7 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           })}
           error={!!errors.lastName}
           helperText={errors.lastName?.message}
-          icon={<Person color="action" fontSize="large" />}
+          icon={<Person color="action" />}
         />
 
         <Input
@@ -159,13 +159,13 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           })}
           error={!!errors.firstName}
           helperText={errors.firstName?.message}
-          icon={<Person color="action" fontSize="large" />}
+          icon={<Person color="action" />}
         />
 
         <Input
           label="Отчество"
           inputProps={register("middleName")}
-          icon={<Person color="action" fontSize="large" />}
+          icon={<Person color="action" />}
         />
 
         <Input
@@ -179,7 +179,7 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           })}
           error={!!errors.age}
           helperText={errors.age?.message}
-          icon={<Numbers color="action" fontSize="large" />}
+          icon={<Numbers color="action" />}
         />
 
         <GenderSelect
