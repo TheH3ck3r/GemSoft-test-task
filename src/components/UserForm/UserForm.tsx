@@ -41,18 +41,12 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
   const router = useRouter();
   const params = useParams();
 
-  // const [snackbarState, setSnackbarState] = useState<
-  //   "success" | "error" | undefined
-  // >(undefined);
-
   const [error, setError] = useState(false);
 
   const [snackbarState, setSnackbarState] = useState<SnackbarProps>({
     open: false,
     severity: undefined,
   });
-
-  console.log(snackbarState);
 
   const handleCloseSnackbar = (
     event?: React.SyntheticEvent | Event,
@@ -99,7 +93,6 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
       if (page === "update" && params?.id) {
         try {
           const userData = await getUserById(params.id.toString());
-          console.log("userData", userData);
           if (userData) {
             reset(userData);
           }
@@ -112,24 +105,21 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
     fetchUser();
   }, [page, params?.id, reset]);
 
-  // Переделать
   const onSubmit: SubmitHandler<UserProps> = async (data) => {
-    if (page == "create") {
+    if (page === "create") {
       try {
         const res = await createUser(data);
         const json = await res.json();
 
         if (res.ok) {
-          setSnackbarState({ open: snackbarState.open, severity: "success" });
+          setSnackbarState({ open: true, severity: "success" });
           router.push(`/users/${json.id}`);
           reset();
         } else {
-          setSnackbarState({ open: snackbarState.open, severity: "error" });
+          setSnackbarState({ open: true, severity: "error" });
         }
       } catch {
-        setSnackbarState({ open: snackbarState.open, severity: "error" });
-      } finally {
-        setSnackbarState({ open: true, severity: snackbarState.severity });
+        setSnackbarState({ open: true, severity: "error" });
       }
     } else {
       try {
@@ -137,19 +127,17 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           const res = await updateUser(params.id.toString(), data);
 
           if (res.ok) {
-            setSnackbarState({ open: snackbarState.open, severity: "success" });
+            setSnackbarState({ open: true, severity: "success" });
             const updatedUser = await getUserById(params.id.toString());
             if (updatedUser) {
               reset(updatedUser);
             }
           } else {
-            setSnackbarState({ open: snackbarState.open, severity: "error" });
+            setSnackbarState({ open: true, severity: "error" });
           }
         }
       } catch {
-        setSnackbarState({ open: snackbarState.open, severity: "error" });
-      } finally {
-        setSnackbarState({ open: true, severity: snackbarState.severity });
+        setSnackbarState({ open: true, severity: "error" });
       }
     }
   };
