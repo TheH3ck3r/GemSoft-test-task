@@ -26,6 +26,7 @@ import { Input } from "@/ui/Input";
 import { Numbers, Person } from "@mui/icons-material";
 import { Radiobox } from "@/ui/Radiobox";
 import { CheckboxGroup } from "@/ui/CheckboxGroup";
+import { NotFound } from "../NotFound";
 
 type UserFormProps = {
   page: "create" | "update";
@@ -43,6 +44,8 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
   // const [snackbarState, setSnackbarState] = useState<
   //   "success" | "error" | undefined
   // >(undefined);
+
+  const [error, setError] = useState(false);
 
   const [snackbarState, setSnackbarState] = useState<SnackbarProps>({
     open: false,
@@ -92,14 +95,22 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
   });
 
   useEffect(() => {
-    if (page === "update" && params?.id) {
-      getUserById(params.id.toString()).then((userData) => {
-        if (userData) {
-          reset(userData);
+    const fetchUser = async () => {
+      if (page === "update" && params?.id) {
+        try {
+          const userData = await getUserById(params.id.toString());
+          console.log("userData", userData);
+          if (userData) {
+            reset(userData);
+          }
+        } catch {
+          setError(true);
         }
-      });
-    }
-  }, [page, params.id, reset]);
+      }
+    };
+
+    fetchUser();
+  }, [page, params?.id, reset]);
 
   // Переделать
   const onSubmit: SubmitHandler<UserProps> = async (data) => {
@@ -142,6 +153,10 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
       }
     }
   };
+
+  if (error) {
+    return <NotFound></NotFound>;
+  }
 
   return (
     <div className={styles.root}>

@@ -8,7 +8,7 @@ export async function GET(req: Request) {
   if (usersDataStore.users[id]) {
     return NextResponse.json(usersDataStore.users[id], { status: 200 });
   } else {
-    return NextResponse.json({ success: "Ramus says NO!" }, { status: 404 });
+    return NextResponse.json({ error: "Ramus says NO!" }, { status: 404 });
   }
 }
 
