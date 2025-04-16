@@ -9,46 +9,32 @@ import {
   FormLabel,
 } from "@mui/material";
 import { FC } from "react";
-import { Controller, Control } from "react-hook-form";
-import { UserProps } from "@/data-types/props";
+import { Controller } from "react-hook-form";
+import { FormComponentProps } from "@/data-types/props";
 
-type Option = {
-  label: string;
-  value: string;
-};
-
-type InterestCheckboxGroupProps = {
-  name: "interests"; // строгое значение
-  control: Control<UserProps>;
-  error?: boolean;
-  options: Option[];
-  errors: string | undefined;
-  label: string;
-};
-
-export const InterestCheckboxGroup: FC<InterestCheckboxGroupProps> = ({
+export const CheckboxGroup: FC<FormComponentProps> = ({
   name,
   control,
-  error,
   options,
   label,
-  errors,
+  validate,
 }) => (
-  <FormControl component="fieldset" error={!!error} margin="normal">
+  <FormControl
+    component="fieldset"
+    error={!!control._formState.errors[name]}
+    margin="normal"
+  >
     <FormLabel>{label}</FormLabel>
     <FormGroup row>
       <Controller
         name={name}
         control={control}
         rules={{
-          validate: (selected: string[]) =>
-            Array.isArray(selected) && selected.length >= 2
-              ? true
-              : "Выберите минимум два интереса",
+          validate: validate,
         }}
         render={({ field }) => (
           <>
-            {options.map((option) => {
+            {options?.map((option) => {
               const checked = Array.isArray(field.value)
                 ? field.value.includes(option.value)
                 : false;
@@ -56,7 +42,7 @@ export const InterestCheckboxGroup: FC<InterestCheckboxGroupProps> = ({
               const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                 const newValue = e.target.checked
                   ? [...(field.value || []), option.value]
-                  : (field.value || []).filter(
+                  : (Array.from(field.value) || []).filter(
                       (v: string) => v !== option.value
                     );
 
@@ -81,6 +67,6 @@ export const InterestCheckboxGroup: FC<InterestCheckboxGroupProps> = ({
         )}
       />
     </FormGroup>
-    <FormHelperText>{errors}</FormHelperText>
+    <FormHelperText>{control._formState.errors[name]?.message}</FormHelperText>
   </FormControl>
 );

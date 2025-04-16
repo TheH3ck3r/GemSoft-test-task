@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Control, ValidationRule } from "react-hook-form";
+import { Control, Validate, ValidationRule } from "react-hook-form";
 
 export type Vacancy = {
   id: string;
@@ -55,4 +55,5 @@ export type FormComponentProps = {
   icon?: ReactNode;
   requiredText?: string | ValidationRule<boolean> | undefined;
   pattern?: ValidationRule<RegExp> | undefined;
+  validate?: Validate<string | string[], UserProps>;
 };

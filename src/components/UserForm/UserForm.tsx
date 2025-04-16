@@ -25,7 +25,7 @@ import Link from "next/link";
 import { Input } from "@/ui/Input";
 import { Numbers, Person } from "@mui/icons-material";
 import { Radiobox } from "@/ui/Radiobox";
-import { InterestCheckboxGroup } from "@/ui/InterestCheckboxGroup";
+import { CheckboxGroup } from "@/ui/CheckboxGroup";
 
 type UserFormProps = {
   page: "create" | "update";
@@ -190,13 +190,16 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           requiredText="Выберете пол"
         />
 
-        <InterestCheckboxGroup
+        <CheckboxGroup
           name="interests"
           label="* Интересы"
           control={control}
-          error={!!errors.interests}
           options={interests}
-          errors={errors.interests?.message}
+          validate={(selected) =>
+            Array.isArray(selected) && selected.length >= 2
+              ? true
+              : "Выберите минимум два интереса"
+          }
         />
 
         {watch("interests")?.includes("music") && (
