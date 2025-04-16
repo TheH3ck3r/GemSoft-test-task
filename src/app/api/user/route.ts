@@ -5,8 +5,11 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const id = Number(searchParams.get("id"));
-
-  return NextResponse.json(usersDataStore.users[id], { status: 200 });
+  if (usersDataStore.users[id]) {
+    return NextResponse.json(usersDataStore.users[id], { status: 200 });
+  } else {
+    return NextResponse.json({ success: "Ramus says NO!" }, { status: 404 });
+  }
 }
 
 export async function DELETE(req: Request) {
