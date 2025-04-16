@@ -9,7 +9,7 @@ import {
   Radio,
   FormHelperText,
 } from "@mui/material";
-import { Controller, Control } from "react-hook-form";
+import { Controller, Control, ValidationRule } from "react-hook-form";
 import { UserProps } from "@/types/props";
 
 type Option = {
@@ -17,63 +17,53 @@ type Option = {
   value: string;
 };
 
-type GenderSelectProps = {
-  name:
-    | "lastName"
-    | "firstName"
-    | "middleName"
-    | "age"
-    | "gender"
-    | "interests"
-    | "musicGenre"
-    | `interests.${number}`;
-  control: Control<UserProps>;
-  error: boolean;
-  options: Option[];
+type RadioboxProps = {
   label: string;
-  errors: string | undefined;
+  name: keyof UserProps;
+  control: Control<UserProps>;
+  options: Option[];
+  requiredText?: string | ValidationRule<boolean> | undefined;
 };
 
-export const GenderSelect: FC<GenderSelectProps> = ({
+export const Radiobox: FC<RadioboxProps> = ({
+  label,
   name,
   control,
-  error,
   options,
-  label,
-  errors,
+  requiredText,
 }) => (
   <FormControl
     component="fieldset"
     margin="normal"
-    error={!!error}
+    error={!!control._formState.errors[name]}
     color="secondary"
   >
     <FormLabel>{label}</FormLabel>
     <Controller
       name={name}
       control={control}
-      rules={{ required: "Выберите пол" }}
+      rules={{ required: requiredText }}
       render={({ field }) => (
         <RadioGroup
           row
           {...field}
-          sx={{
-            "& .MuiRadio-root": {
-              color: "#FD5200",
-            },
-          }}
+          // sx={{
+          //   "& .MuiRadio-root": {
+          //     color: "#FD5200",
+          //   },
+          // }}
         >
-          {options.map((opt) => (
+          {options.map((option) => (
             <FormControlLabel
-              key={opt.value}
-              value={opt.value}
+              key={option.value}
+              value={option.value}
               control={<Radio />}
-              label={opt.label}
+              label={option.label}
             />
           ))}
         </RadioGroup>
       )}
     />
-    <FormHelperText>{errors}</FormHelperText>
+    <FormHelperText>{control._formState.errors[name]?.message}</FormHelperText>
   </FormControl>
 );

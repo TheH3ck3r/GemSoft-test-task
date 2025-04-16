@@ -6,7 +6,7 @@ import { Control, Controller, ValidationRule } from "react-hook-form";
 type InputProps = {
   label: string;
   name: keyof UserProps;
-  control: Control<UserProps, unknown, UserProps>;
+  control: Control<UserProps>;
   icon?: ReactNode;
   requiredText?: string | ValidationRule<boolean> | undefined;
   pattern?: ValidationRule<RegExp> | undefined;

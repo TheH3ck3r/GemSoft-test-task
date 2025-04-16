@@ -24,7 +24,7 @@ import { genders, interests, musicGenres } from "@/common/userFormData";
 import Link from "next/link";
 import { Input } from "@/ui/Input";
 import { Numbers, Person } from "@mui/icons-material";
-import { GenderSelect } from "@/ui/GenderSelect";
+import { Radiobox } from "@/ui/Radiobox";
 import { InterestCheckboxGroup } from "@/ui/InterestCheckboxGroup";
 
 type UserFormProps = {
@@ -182,13 +182,12 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           pattern={{ value: /^[0-9]+$/, message: "Можно вводить только числа" }}
         />
 
-        <GenderSelect
+        <Radiobox
           name="gender"
           label="* Пол"
           control={control}
-          error={!!errors.gender}
           options={genders}
-          errors={errors.gender?.message}
+          requiredText="Выберете пол"
         />
 
         <InterestCheckboxGroup
