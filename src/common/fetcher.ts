@@ -1,4 +1,4 @@
-import { UserProps } from "@/types/props";
+import { UserProps } from "@/data-types/props";
 import { kBaseEndpoint } from "./app";
 
 // ----------| vacancy |----------

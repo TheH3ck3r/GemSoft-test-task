@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 import { Controller, Control } from "react-hook-form";
-import { UserProps } from "@/types/props";
+import { UserProps } from "@/data-types/props";
 
 type Option = {
   label: string;

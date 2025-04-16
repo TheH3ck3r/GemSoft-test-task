@@ -9,23 +9,10 @@ import {
   Radio,
   FormHelperText,
 } from "@mui/material";
-import { Controller, Control, ValidationRule } from "react-hook-form";
-import { UserProps } from "@/types/props";
+import { Controller } from "react-hook-form";
+import { FormComponentProps } from "@/data-types/props";
 
-type Option = {
-  label: string;
-  value: string;
-};
-
-type RadioboxProps = {
-  label: string;
-  name: keyof UserProps;
-  control: Control<UserProps>;
-  options: Option[];
-  requiredText?: string | ValidationRule<boolean> | undefined;
-};
-
-export const Radiobox: FC<RadioboxProps> = ({
+export const Radiobox: FC<FormComponentProps> = ({
   label,
   name,
   control,
@@ -53,7 +40,7 @@ export const Radiobox: FC<RadioboxProps> = ({
           //   },
           // }}
         >
-          {options.map((option) => (
+          {options?.map((option) => (
             <FormControlLabel
               key={option.value}
               value={option.value}

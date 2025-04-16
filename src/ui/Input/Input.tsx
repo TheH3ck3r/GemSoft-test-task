@@ -1,18 +1,9 @@
-import { UserProps } from "@/types/props";
+import { FormComponentProps } from "@/data-types/props";
 import { InputAdornment, TextField } from "@mui/material";
-import { FC, ReactNode } from "react";
-import { Control, Controller, ValidationRule } from "react-hook-form";
+import { FC } from "react";
+import { Controller } from "react-hook-form";
 
-type InputProps = {
-  label: string;
-  name: keyof UserProps;
-  control: Control<UserProps>;
-  icon?: ReactNode;
-  requiredText?: string | ValidationRule<boolean> | undefined;
-  pattern?: ValidationRule<RegExp> | undefined;
-};
-
-export const Input: FC<InputProps> = ({
+export const Input: FC<FormComponentProps> = ({
   label,
   name,
   control,

@@ -1,4 +1,4 @@
-import { UserProps } from "@/types/props";
+import { UserProps } from "@/data-types/props";
 import { makeAutoObservable } from "mobx";
 
 export class UsersDataStore {

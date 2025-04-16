@@ -1,5 +1,5 @@
 import usersDataStore from "@/common/stores/usersDataStore";
-import { UserProps } from "@/types/props";
+import { UserProps } from "@/data-types/props";
 import { NextResponse } from "next/server";
 
 export async function GET() {
