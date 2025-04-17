@@ -16,7 +16,7 @@ export const Select: FC<FormComponentProps> = ({
     name={name}
     control={control}
     rules={{ required: requiredText }}
-    render={({ field: { value, onChange, ref } }) => (
+    render={({ field: { value, onChange, ref }, fieldState }) => (
       <Autocomplete
         options={options!}
         getOptionLabel={(option) => option.label}
@@ -29,8 +29,8 @@ export const Select: FC<FormComponentProps> = ({
             {...params}
             label={label}
             inputRef={ref}
-            error={!!control._formState.errors[name]}
-            helperText={control._formState.errors[name]?.message}
+            error={!!fieldState.error}
+            helperText={fieldState.error?.message}
           />
         )}
       />

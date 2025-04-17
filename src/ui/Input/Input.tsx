@@ -15,13 +15,13 @@ export const Input: FC<FormComponentProps> = ({
     name={name}
     control={control}
     rules={{ required: requiredText, pattern: pattern }}
-    render={({ field }) => (
+    render={({ field, fieldState }) => (
       <TextField
         label={label}
         {...field}
         color="secondary"
-        error={!!control._formState.errors[name]}
-        helperText={control._formState.errors[name]?.message}
+        error={!!fieldState.error}
+        helperText={fieldState.error?.message}
         fullWidth
         margin="normal"
         slotProps={{
