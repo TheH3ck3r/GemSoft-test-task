@@ -1,4 +1,4 @@
-import { UserProps } from "@/types/props";
+import { UserProps } from "@/data-types/props";
 import { makeAutoObservable } from "mobx";
 
 export class UsersDataStore {
@@ -7,7 +7,7 @@ export class UsersDataStore {
       firstName: "Михаил",
       lastName: "Нечаев",
       middleName: "Александрович",
-      age: 20,
+      age: "20",
       gender: "male",
       interests: ["music", "games", "movies"],
       musicGenre: "electronic",

@@ -1,41 +1,45 @@
-import { TextField } from "@mui/material";
-import { FC, ReactNode } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
-import styles from "./Input.module.scss";
+import { FormComponentProps } from "@/data-types/props";
+import { InputAdornment, TextField } from "@mui/material";
+import { FC } from "react";
+import { Controller } from "react-hook-form";
 
-type InputProps = {
-  label: string;
-  error?: boolean;
-  helperText?: ReactNode;
-  icon?: ReactNode;
-  inputProps?: UseFormRegisterReturn;
-};
-
-export const Input: FC<InputProps> = ({
+export const Input: FC<FormComponentProps> = ({
   label,
-  error,
-  helperText,
+  name,
+  control,
   icon,
-  inputProps,
+  requiredText,
+  pattern,
 }) => (
-  <div className={styles.input_wrapper}>
-    {icon && <div className={styles.icon}>{icon}</div>}
-    <TextField
-      {...inputProps}
-      label={label}
-      color="secondary"
-      error={error}
-      helperText={helperText}
-      fullWidth
-      margin="normal"
-      sx={{
-        "& .MuiInputBase-input": {
-          fontSize: "20px",
-        },
-        "& .MuiInputLabel-root": {
-          fontSize: "20px",
-        },
-      }}
-    />
-  </div>
+  <Controller
+    name={name}
+    control={control}
+    rules={{ required: requiredText, pattern: pattern }}
+    render={({ field }) => (
+      <TextField
+        label={label}
+        {...field}
+        color="secondary"
+        error={!!control._formState.errors[name]}
+        helperText={control._formState.errors[name]?.message}
+        fullWidth
+        margin="normal"
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">{icon}</InputAdornment>
+            ),
+          },
+        }}
+        // sx={{
+        //   "& .MuiInputBase-input": {
+        //     fontSize: "20px",
+        //   },
+        //   "& .MuiInputLabel-root": {
+        //     fontSize: "20px",
+        //   },
+        // }}
+      />
+    )}
+  />
 );

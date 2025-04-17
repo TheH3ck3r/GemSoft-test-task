@@ -1,4 +1,4 @@
-import { UserProps } from "@/types/props";
+import { UserProps } from "@/data-types/props";
 import { kBaseEndpoint } from "./app";
 
 // ----------| vacancy |----------
@@ -27,8 +27,13 @@ export const deleteUsers = () => fetch(`/api/users`, { method: "DELETE" });
 
 // ----------| user |----------
 
-export const getUserById = (id: string) =>
-  fetch(`/api/user?id=${id}`).then((res) => res.json());
+export const getUserById = async (id: string) => {
+  const res = await fetch(`/api/user?id=${id}`);
+  if (!res.ok) {
+    throw new Error("Не удалось получить пользователя");
+  }
+  return res.json();
+};
 
 export const updateUser = (id: string, user: UserProps) =>
   fetch(`/api/user?id=${id}`, {

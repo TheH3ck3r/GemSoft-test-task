@@ -23,29 +23,37 @@ import { useRouter } from "next/navigation";
 import { genders, interests, musicGenres } from "@/common/userFormData";
 import Link from "next/link";
 import { Input } from "@/ui/Input";
-import { AutoAwesome, Numbers, Person, Wc } from "@mui/icons-material";
-import { GenderSelect } from "@/ui/GenderSelect";
-import { InterestCheckboxGroup } from "@/ui/InterestCheckboxGroup";
+import { Numbers, Person } from "@mui/icons-material";
+import { Radiobox } from "@/ui/Radiobox";
+import { CheckboxGroup } from "@/ui/CheckboxGroup";
+import { NotFound } from "../NotFound";
 
 type UserFormProps = {
   page: "create" | "update";
+};
+
+type SnackbarProps = {
+  open: boolean;
+  severity: "success" | "error" | undefined;
 };
 
 export const UserForm: FC<UserFormProps> = ({ page }) => {
   const router = useRouter();
   const params = useParams();
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
-    "success"
-  );
+  const [error, setError] = useState(false);
+
+  const [snackbarState, setSnackbarState] = useState<SnackbarProps>({
+    open: false,
+    severity: undefined,
+  });
 
   const handleCloseSnackbar = (
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
     if (reason === "clickaway") return;
-    setSnackbarOpen(false);
+    setSnackbarState({ open: false, severity: snackbarState.severity });
   };
 
   // Это костыль, но он чинит проблему, что анимация TextField со строками ломается при открытии страницы пользвателя
@@ -55,7 +63,7 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           lastName: "",
           firstName: "",
           middleName: "",
-          age: 0,
+          age: "",
           gender: "",
           interests: [],
           musicGenre: "",
@@ -64,14 +72,13 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
           lastName: " ",
           firstName: " ",
           middleName: " ",
-          age: 0,
+          age: " ",
           gender: " ",
           interests: [],
           musicGenre: " ",
         };
 
   const {
-    register,
     handleSubmit,
     control,
     watch,
@@ -82,58 +89,62 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
   });
 
   useEffect(() => {
-    if (page === "update" && params?.id) {
-      getUserById(params.id.toString()).then((userData) => {
-        if (userData) {
-          reset(userData);
+    const fetchUser = async () => {
+      if (page === "update" && params?.id) {
+        try {
+          const userData = await getUserById(params.id.toString());
+          if (userData) {
+            reset(userData);
+          }
+        } catch {
+          setError(true);
         }
-      });
-    }
-  }, [page, params.id, reset]);
+      }
+    };
+
+    fetchUser();
+  }, [page, params?.id, reset]);
 
   const onSubmit: SubmitHandler<UserProps> = async (data) => {
-    if (page == "create") {
+    if (page === "create") {
       try {
         const res = await createUser(data);
         const json = await res.json();
 
-        if (!res.ok) {
-          setSnackbarSeverity("error");
-        } else {
-          setSnackbarSeverity("success");
-
+        if (res.ok) {
+          setSnackbarState({ open: true, severity: "success" });
           router.push(`/users/${json.id}`);
-
           reset();
+        } else {
+          setSnackbarState({ open: true, severity: "error" });
         }
       } catch {
-        setSnackbarSeverity("error");
-      } finally {
-        setSnackbarOpen(true);
+        setSnackbarState({ open: true, severity: "error" });
       }
     } else {
       try {
         if (params?.id) {
           const res = await updateUser(params.id.toString(), data);
 
-          if (!res.ok) {
-            setSnackbarSeverity("error");
-          } else {
-            setSnackbarSeverity("success");
-
+          if (res.ok) {
+            setSnackbarState({ open: true, severity: "success" });
             const updatedUser = await getUserById(params.id.toString());
             if (updatedUser) {
               reset(updatedUser);
             }
+          } else {
+            setSnackbarState({ open: true, severity: "error" });
           }
         }
       } catch {
-        setSnackbarSeverity("error");
-      } finally {
-        setSnackbarOpen(true);
+        setSnackbarState({ open: true, severity: "error" });
       }
     }
   };
+
+  if (error) {
+    return <NotFound></NotFound>;
+  }
 
   return (
     <div className={styles.root}>
@@ -144,62 +155,54 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="* Фамилия"
-          inputProps={register("lastName", {
-            required: "Это поле обязательно",
-          })}
-          error={!!errors.lastName}
-          helperText={errors.lastName?.message}
-          icon={<Person color="action" fontSize="large" />}
+          name="lastName"
+          control={control}
+          icon={<Person color="action" />}
+          requiredText="Это поле обязательно"
         />
 
         <Input
           label="* Имя"
-          inputProps={register("firstName", {
-            required: "Это поле обязательно",
-          })}
-          error={!!errors.firstName}
-          helperText={errors.firstName?.message}
-          icon={<Person color="action" fontSize="large" />}
+          name="firstName"
+          control={control}
+          icon={<Person color="action" />}
+          requiredText="Это поле обязательно"
         />
 
         <Input
           label="Отчество"
-          inputProps={register("middleName")}
-          icon={<Person color="action" fontSize="large" />}
+          name="middleName"
+          control={control}
+          icon={<Person color="action" />}
         />
 
         <Input
           label="* Возраст"
-          inputProps={register("age", {
-            required: "Это поле обязательно",
-            pattern: {
-              value: /^[0-9]+$/,
-              message: "Можно вводить только числа",
-            },
-          })}
-          error={!!errors.age}
-          helperText={errors.age?.message}
-          icon={<Numbers color="action" fontSize="large" />}
+          name="age"
+          control={control}
+          icon={<Numbers color="action" />}
+          requiredText="Это поле обязательно"
+          pattern={{ value: /^[0-9]+$/, message: "Можно вводить только числа" }}
         />
 
-        <GenderSelect
+        <Radiobox
           name="gender"
           label="* Пол"
           control={control}
-          error={!!errors.gender}
           options={genders}
-          errors={errors.gender?.message}
-          icon={<Wc color="action" fontSize="large" />}
+          requiredText="Выберете пол"
         />
 
-        <InterestCheckboxGroup
+        <CheckboxGroup
           name="interests"
-          // label="* Интересы"
+          label="* Интересы"
           control={control}
-          error={!!errors.interests}
           options={interests}
-          errors={errors.interests?.message}
-          icon={<AutoAwesome color="action" fontSize="large" />}
+          validate={(selected) =>
+            Array.isArray(selected) && selected.length >= 2
+              ? true
+              : "Выберите минимум два интереса"
+          }
         />
 
         {watch("interests")?.includes("music") && (
@@ -260,17 +263,17 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
       </form>
 
       <Snackbar
-        open={snackbarOpen}
+        open={snackbarState.open}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity={snackbarSeverity}
+          severity={snackbarState.severity}
           sx={{ width: "100%" }}
         >
-          {snackbarSeverity == "success"
+          {snackbarState.severity == "success"
             ? "Данные сохранены"
             : "Произошла ошибка"}
         </Alert>

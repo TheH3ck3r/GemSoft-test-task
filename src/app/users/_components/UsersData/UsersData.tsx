@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import styles from "./UsersData.module.scss";
-import { UserProps } from "@/types/props";
+import { UserProps } from "@/data-types/props";
 import { useEffect, useState } from "react";
 import { getAllUsers } from "@/common/fetcher";
 import { observer } from "mobx-react-lite";
