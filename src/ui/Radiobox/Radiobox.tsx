@@ -18,6 +18,8 @@ export const Radiobox: FC<FormComponentProps> = ({
   control,
   options,
   requiredText,
+  pattern,
+  validate,
 }) => (
   <FormControl
     component="fieldset"
@@ -29,7 +31,7 @@ export const Radiobox: FC<FormComponentProps> = ({
     <Controller
       name={name}
       control={control}
-      rules={{ required: requiredText }}
+      rules={{ required: requiredText, pattern: pattern, validate: validate }}
       render={({ field }) => (
         <RadioGroup
           row

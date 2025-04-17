@@ -11,11 +11,13 @@ export const Select: FC<FormComponentProps> = ({
   options,
   label,
   requiredText,
+  pattern,
+  validate,
 }) => (
   <Controller
     name={name}
     control={control}
-    rules={{ required: requiredText }}
+    rules={{ required: requiredText, pattern: pattern, validate: validate }}
     render={({ field: { value, onChange, ref }, fieldState }) => (
       <Autocomplete
         options={options!}

@@ -17,6 +17,8 @@ export const CheckboxGroup: FC<FormComponentProps> = ({
   control,
   options,
   label,
+  requiredText,
+  pattern,
   validate,
 }) => (
   <FormControl
@@ -30,6 +32,8 @@ export const CheckboxGroup: FC<FormComponentProps> = ({
         name={name}
         control={control}
         rules={{
+          required: requiredText,
+          pattern: pattern,
           validate: validate,
         }}
         render={({ field }) => (

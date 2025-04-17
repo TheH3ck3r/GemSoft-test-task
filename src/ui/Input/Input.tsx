@@ -10,11 +10,12 @@ export const Input: FC<FormComponentProps> = ({
   icon,
   requiredText,
   pattern,
+  validate,
 }) => (
   <Controller
     name={name}
     control={control}
-    rules={{ required: requiredText, pattern: pattern }}
+    rules={{ required: requiredText, pattern: pattern, validate: validate }}
     render={({ field, fieldState }) => (
       <TextField
         label={label}
