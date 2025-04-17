@@ -7,7 +7,7 @@ export class UsersDataStore {
       firstName: "Михаил",
       lastName: "Нечаев",
       middleName: "Александрович",
-      age: 20,
+      age: "20",
       gender: "male",
       interests: ["music", "games", "movies"],
       musicGenre: "electronic",
