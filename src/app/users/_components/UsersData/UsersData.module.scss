@@ -17,6 +17,11 @@
   gap: 12px;
 }
 
+.no_data {
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 1385px) {
   .root {
     grid-template-columns: repeat(5, 1fr);
