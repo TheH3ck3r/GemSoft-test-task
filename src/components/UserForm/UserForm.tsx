@@ -2,16 +2,10 @@
 
 import styles from "./UserForm.module.scss";
 import { Back } from "@/components/Back";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { UserProps } from "@/data-types/props";
 import { useParams } from "next/navigation";
-import {
-  Alert,
-  Autocomplete,
-  Button,
-  Snackbar,
-  TextField,
-} from "@mui/material";
+import { Alert, Button, Snackbar } from "@mui/material";
 import {
   createUser,
   deleteUser,
@@ -27,6 +21,7 @@ import { Numbers, Person } from "@mui/icons-material";
 import { Radiobox } from "@/ui/Radiobox";
 import { CheckboxGroup } from "@/ui/CheckboxGroup";
 import { NotFound } from "../NotFound";
+import { Select } from "@/ui/Select";
 
 type UserFormProps = {
   page: "create" | "update";
@@ -83,7 +78,7 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
     control,
     watch,
     reset,
-    formState: { errors, isValid, isDirty },
+    formState: { isValid, isDirty },
   } = useForm<UserProps>({
     defaultValues: defaultValues,
     mode: "onChange",
@@ -207,32 +202,13 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
         />
 
         {watch("interests")?.includes("music") && (
-          <Controller
+          <Select
+            label="* Жанр музыки"
             name="musicGenre"
             control={control}
-            rules={{ required: "Это поле обязательно" }}
-            render={({ field: { value, onChange, ref } }) => (
-              <Autocomplete
-                options={musicGenres}
-                getOptionLabel={(option) => option.label}
-                value={
-                  musicGenres.find((option) => option.value === value) || null
-                }
-                onChange={(_, newOption) => {
-                  onChange(newOption ? newOption.value : "");
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="* Жанр музыки"
-                    inputRef={ref}
-                    error={!!errors.musicGenre}
-                    helperText={errors.musicGenre?.message}
-                  />
-                )}
-              />
-            )}
-          />
+            requiredText={"Это поле обязательно"}
+            options={musicGenres}
+          ></Select>
         )}
 
         <div className={styles.buttons}>
