@@ -3,8 +3,6 @@ import { Autocomplete, TextField } from "@mui/material";
 import { FC } from "react";
 import { Controller } from "react-hook-form";
 
-// TODO: Исправить ошибку из-за которой добавление Select в UserForm ломает форму
-
 export const Select: FC<FormComponentProps> = ({
   name,
   control,
