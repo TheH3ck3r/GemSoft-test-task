@@ -83,9 +83,10 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
     control,
     watch,
     reset,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm<UserProps>({
     defaultValues: defaultValues,
+    mode: "onChange",
   });
 
   useEffect(() => {
@@ -235,11 +236,22 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
         )}
 
         <div className={styles.buttons}>
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            disabled={!isValid}
+          >
             Сохранить
           </Button>
 
-          <Button onClick={() => reset()} variant="outlined" fullWidth>
+          <Button
+            onClick={() => reset()}
+            variant="outlined"
+            fullWidth
+            disabled={!isDirty}
+          >
             Сбросить
           </Button>
 
