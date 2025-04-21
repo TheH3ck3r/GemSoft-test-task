@@ -1,45 +1,70 @@
 import { UserProps } from "@/data-types/props";
-import { kBaseEndpoint } from "./app";
+import { kNextJsEndpoint } from "./app";
 
-// ----------| vacancy |----------
+export class ApiError extends Error {
+  constructor(
+    public message: string,
+    public status: number,
+    public responseText?: string
+  ) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
 
-export const BaseFetcher = (url: string) =>
-  fetch(`${kBaseEndpoint}${url}`, { method: "GET" }).then((data) =>
-    data.json()
-  );
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
-export const VacancyFetcher = (url: string) =>
-  fetch(`${kBaseEndpoint}vacancy${url}`, { method: "GET" }).then((data) =>
-    data.json()
-  );
+const request = async <T>(
+  url: string,
+  method: HttpMethod,
+  body?: unknown
+): Promise<T> => {
+  try {
+    const res = await fetch(`${kNextJsEndpoint}${url}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      ...(body ? { body: JSON.stringify(body) } : {}),
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new ApiError(text || "Ошибка запроса", res.status, text);
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error(`Ошибка ${method} ${url}:`, error);
+    throw error;
+  }
+};
+
+// ----------| Обёртки |----------
+export const get = <T>(url: string) => request<T>(url, "GET");
+
+export const post = <T>(url: string, body: unknown) =>
+  request<T>(url, "POST", body);
+
+export const put = <T>(url: string, body: unknown) =>
+  request<T>(url, "PUT", body);
+
+export const del = <T>(url: string) => request<T>(url, "DELETE");
 
 // ----------| users |----------
 
-export const getAllUsers = () => fetch("/api/users").then((res) => res.json());
+export const getAllUsers = () => get<UserProps[]>(`/api/users`);
 
 export const createUser = (user: UserProps) =>
-  fetch("/api/users", {
-    method: "POST",
-    body: JSON.stringify(user),
-  });
+  post<UserProps>(`/api/users`, user);
 
-export const deleteUsers = () => fetch(`/api/users`, { method: "DELETE" });
+export const deleteUsers = () => del<null>(`/api/users`);
 
 // ----------| user |----------
 
-export const getUserById = async (id: string) => {
-  const res = await fetch(`/api/user?id=${id}`);
-  if (!res.ok) {
-    throw new Error("Не удалось получить пользователя");
-  }
-  return res.json();
-};
+export const getUserById = (id: string) => get<UserProps>(`/api/user?id=${id}`);
 
 export const updateUser = (id: string, user: UserProps) =>
-  fetch(`/api/user?id=${id}`, {
-    method: "PUT",
-    body: JSON.stringify(user),
-  });
+  put<UserProps>(`/api/user?id=${id}`, user);
 
-export const deleteUser = (id: string) =>
-  fetch(`/api/user?id=${id}`, { method: "DELETE" });
+export const deleteUser = (id: string) => del<null>(`/api/user?id=${id}`);
