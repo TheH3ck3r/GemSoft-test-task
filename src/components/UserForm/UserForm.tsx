@@ -217,7 +217,7 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
             variant="contained"
             color="primary"
             fullWidth
-            disabled={!isValid}
+            disabled={!isValid || !isDirty}
           >
             Сохранить
           </Button>
