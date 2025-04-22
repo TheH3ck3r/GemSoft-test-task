@@ -1,5 +1,5 @@
 import { UserProps } from "@/data-types/props";
-import { kNextJsEndpoint } from "./app";
+// import { kNextJsEndpoint } from "./app";
 
 export class ApiError extends Error {
   constructor(
@@ -20,7 +20,7 @@ const request = async <T>(
   body?: unknown
 ): Promise<T> => {
   try {
-    const res = await fetch(`${kNextJsEndpoint}${url}`, {
+    const res = await fetch(`${url}`, {
       method,
       headers: {
         "Content-Type": "application/json",
