@@ -30,8 +30,29 @@ export const Input: FC<FormComponentProps> = ({
             startAdornment: (
               <InputAdornment position="start">{icon}</InputAdornment>
             ),
+            onInput: (e: React.ChangeEvent<HTMLInputElement>) => {
+              let regex: RegExp | undefined;
+
+              if (pattern instanceof RegExp) {
+                regex = pattern;
+              } else if (
+                pattern &&
+                typeof pattern === "object" &&
+                pattern.value instanceof RegExp
+              ) {
+                regex = pattern.value;
+              }
+
+              if (regex) {
+                const current = e.target.value;
+                const match = current.match(regex);
+                e.target.value = match ? match[0] : "";
+                field.onChange(e);
+              }
+            },
           },
         }}
+
         // sx={{
         //   "& .MuiInputBase-input": {
         //     fontSize: "20px",

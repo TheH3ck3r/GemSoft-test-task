@@ -6,9 +6,10 @@ import { Button } from "@mui/material";
 import { UsersData } from "../UsersData";
 import { deleteUsers, getAllUsers } from "@/common/fetcher";
 import { useEffect, useState } from "react";
+import { UserProps } from "@/types/props";
 
 export const Users = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<UserProps[]>([]);
 
   useEffect(() => {
     getAllUsers().then(setUsers);

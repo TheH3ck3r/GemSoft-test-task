@@ -9,6 +9,7 @@ import { Alert, Button, Snackbar } from "@mui/material";
 import {
   createUser,
   deleteUser,
+  getAllUsers,
   getUserById,
   updateUser,
 } from "@/common/fetcher";
@@ -104,32 +105,26 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
   const onSubmit: SubmitHandler<UserProps> = async (data) => {
     if (page === "create") {
       try {
-        const res = await createUser(data);
-        const json = await res.json();
+        await createUser(data);
 
-        if (res.ok) {
-          setSnackbarState({ open: true, severity: "success" });
-          router.push(`/users/${json.id}`);
-          reset();
-        } else {
-          setSnackbarState({ open: true, severity: "error" });
-        }
+        const users = await getAllUsers();
+        const newUserIndex = users.length - 1;
+
+        setSnackbarState({ open: true, severity: "success" });
+        router.push(`/users/${newUserIndex}`);
+        reset();
       } catch {
         setSnackbarState({ open: true, severity: "error" });
       }
     } else {
       try {
         if (params?.id) {
-          const res = await updateUser(params.id.toString(), data);
+          await updateUser(params.id.toString(), data);
+          setSnackbarState({ open: true, severity: "success" });
 
-          if (res.ok) {
-            setSnackbarState({ open: true, severity: "success" });
-            const updatedUser = await getUserById(params.id.toString());
-            if (updatedUser) {
-              reset(updatedUser);
-            }
-          } else {
-            setSnackbarState({ open: true, severity: "error" });
+          const updatedUser = await getUserById(params.id.toString());
+          if (updatedUser) {
+            reset(updatedUser);
           }
         }
       } catch {
@@ -217,7 +212,7 @@ export const UserForm: FC<UserFormProps> = ({ page }) => {
             variant="contained"
             color="primary"
             fullWidth
-            disabled={!isValid}
+            disabled={!isValid || !isDirty}
           >
             Сохранить
           </Button>
